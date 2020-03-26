@@ -1,4 +1,4 @@
-package com.example.breathe;
+package ottawa.ventilator;
 
 import org.junit.Test;
 
