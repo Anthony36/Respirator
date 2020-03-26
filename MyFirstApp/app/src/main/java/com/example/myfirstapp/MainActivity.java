@@ -8,10 +8,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +29,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-    private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+    public static final String ACTION_USB_PERMISSION = "com.example.myfirstapp.USB_PERMISSION";
+    public static final String ACTION_USB_DEVICE_ATTACHED = "com.example.myfirstapp.ACTION_USB_DEVICE_ATTACHED";
 
     private UsbManager usbManager;
     private UsbDevice usbDevice;
@@ -36,25 +39,19 @@ public class MainActivity extends AppCompatActivity {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
-                boolean permissionGranted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
-                if (permissionGranted) {
-                    usbConnection = usbManager.openDevice(usbDevice);
-                    usbSerialDevice = UsbSerialDevice.createUsbSerialDevice(usbDevice, usbConnection);
-                    if (usbSerialDevice.open()) {
-                        usbSerialDevice.setBaudRate(9600);
-                        usbSerialDevice.setDataBits(UsbSerialInterface.DATA_BITS_8);
-                        usbSerialDevice.setStopBits(UsbSerialInterface.STOP_BITS_1);
-                        usbSerialDevice.setParity(UsbSerialInterface.PARITY_NONE);
-                        usbSerialDevice.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
-                        usbSerialDevice.read(mCallback); // Listen for incoming data
-                        updateTextView("Connection opened");
-                    }
+            UsbDevice usbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+            usbConnection = usbManager.openDevice(usbDevice);
+            usbSerialDevice = UsbSerialDevice.createUsbSerialDevice(usbDevice, usbConnection);
+            if (usbSerialDevice != null) {
+                if (usbSerialDevice.open()) { //Set Serial Connection Parameters.
+                    usbSerialDevice.setBaudRate(9600);
+                    usbSerialDevice.setDataBits(UsbSerialInterface.DATA_BITS_8);
+                    usbSerialDevice.setStopBits(UsbSerialInterface.STOP_BITS_1);
+                    usbSerialDevice.setParity(UsbSerialInterface.PARITY_NONE);
+                    usbSerialDevice.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
+                    usbSerialDevice.read(mCallback);
+                    updateTextView("Serial Connection Opened!\n");
                 }
-            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
-                connectUsbDevice();
-            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
-                disconnectUsbDevice();
             }
         }
 
@@ -88,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
+        IntentFilter filter = new IntentFilter(ACTION_USB_DEVICE_ATTACHED);
+        registerReceiver(broadcastReceiver, filter);
     }
 
     private void connectUsbDevice() {
@@ -107,11 +106,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void disconnectUsbDevice() {
         if (usbSerialDevice != null) {
-            Button connectButton = findViewById(R.id.connectButton);
-            connectButton.setText(getResources().getString(R.string.button_connect));
-            connected = false;
             usbSerialDevice.close();
         }
+        Button connectButton = findViewById(R.id.connectButton);
+        connectButton.setText(getResources().getString(R.string.button_connect));
+        connected = false;
     }
 
     /** Called when the user toggles the USB connection on or off */
