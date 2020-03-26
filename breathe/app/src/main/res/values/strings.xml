@@ -3,4 +3,31 @@
 
     <string name="dummy_button">Ventilator</string>
     <string name="dummy_content">DUMMY CONTENT</string>
+
+    <string name="default_value_three_digit">---</string>
+    <string name="default_value_two_digit">--</string>
+    <string name="button_up">Up</string>
+    <string name="button_down">Down</string>
+    <string name="fio2_actual_label">FiO2 Actual</string>
+    <string name="minute_ventilation_actual_label">Minute Ventilation Actual</string>
+    <string name="breathing_rate_label">Breathing Rate</string>
+    <string name="inspiration_pressure_label">Inspiration Pressure</string>
+    <string name="peep_label">PEEP</string>
+    <string name="fio2_label">FiO2</string>
+    <string name="minute_ventilation_label">Minute Ventilation</string>
+
+    <string name="alarms_title">Alarms</string>
+    <string name="alarm_disconnect_label">Disconnect</string>
+    <string name="alarm_tidal_volume_high_label">Tidal Volume High</string>
+    <string name="alarm_tidal_volume_low_label">Tidal Volume Low</string>
+    <string name="silence_alarm_button">Silence Alarm</string>
+
+    <string name="patient_trigger_title">Patient Trigger</string>
+    <string name="patient_triggered_label">Patient Triggered</string>
+    <string name="allowed_patient_trigger_toggle">Allowed</string>
+    <string name="disallowed_patient_trigger_toggle">Disallowed</string>
+
+    <string name="controls_title">Controls</string>
+    <string name="ventilate_button">Ventilate</string>
+    <string name="power_switch">Power</string>
 </resources>
