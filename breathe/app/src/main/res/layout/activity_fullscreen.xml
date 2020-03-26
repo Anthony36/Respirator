@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,7 +24,7 @@
                 android:id="@+id/minVentGrp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="10sp">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -33,7 +34,7 @@
                         android:id="@+id/minVentVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="88.8"
+                        android:text="00.0"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
                         android:textSize="60sp" />
@@ -69,7 +70,7 @@
                 android:id="@+id/tidalVolGrp"
                 android:layout_width="171dp"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="10sp">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -79,7 +80,7 @@
                         android:id="@+id/tidalVolVal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="888"
+                        android:text="000"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
                         android:textSize="60sp" />
@@ -114,7 +115,7 @@
                 android:id="@+id/fio2Grp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp">
+                android:padding="10sp">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -124,7 +125,7 @@
                         android:id="@+id/fio2Val"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="888"
+                        android:text="000"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
                         android:textSize="60sp" />
@@ -155,6 +156,27 @@
                 </TableRow>
 
             </TableLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/alarmRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10sp">
+
+            <TextView
+                android:id="@+id/alarmLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="4"
+                android:background="#33000000"
+                android:padding="5sp"
+                android:text="! Minute Ventilation High"
+                android:textAlignment="center"
+                android:textColor="#FFEB3B"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </TableRow>
 
@@ -432,10 +454,10 @@
         <TableRow
             android:id="@+id/controlsRow2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TableLayout
-                android:id="@+id/tidalVolGrp"
+                android:id="@+id/tidalVolTargetGrp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10sp">
@@ -481,6 +503,7 @@
                         android:textAlignment="center"
                         android:textColor="#CCC"
                         android:textSize="24sp" />
+
                 </TableRow>
 
                 <TableRow
@@ -501,7 +524,7 @@
             </TableLayout>
 
             <TableLayout
-                android:id="@+id/ieRatioGrp"
+                android:id="@+id/ieRatioTargetGrp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10sp">
@@ -565,6 +588,41 @@
                 </TableRow>
 
             </TableLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/buttonsRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:text="Run \u25b6"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/spanBtn1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:visibility="invisible" />
+
+            <Button
+                android:id="@+id/spanBtn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:visibility="invisible" />
+
+            <Button
+                android:id="@+id/button6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:text="Silence Alarm"
+                android:textSize="18sp" />
 
         </TableRow>
 
