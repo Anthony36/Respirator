@@ -9,14 +9,10 @@ import ottawa.ventilator.ui.UiApi;
  */
 public class Logic implements UiApi, HardwareApi {
 
-    // Message for hardware
-
     @Override
     public void requestPause() {
 
     }
-
-    // Messages from hardware
 
     @Override
     public void pauseConfirmed() {
@@ -24,7 +20,47 @@ public class Logic implements UiApi, HardwareApi {
     }
 
     @Override
-    public void setTidalVolumeActual(int value) {
+    public void setMinuteVentilationValue(float value) {
+
+    }
+
+    @Override
+    public void setTidalVolumeValue(int value) {
+
+    }
+
+    @Override
+    public void setFiO2Value(int value) {
+
+    }
+
+    @Override
+    public void setBreathingRateTarget(int value) {
+
+    }
+
+    @Override
+    public void setInspirationTarget(int value) {
+
+    }
+
+    @Override
+    public void setFiO2Target(int value) {
+
+    }
+
+    @Override
+    public void setPeepTarget(int value) {
+
+    }
+
+    @Override
+    public void setTidalVolumeTarget(int value) {
+
+    }
+
+    @Override
+    public void setIeRatioTarget(int value) {
 
     }
 }

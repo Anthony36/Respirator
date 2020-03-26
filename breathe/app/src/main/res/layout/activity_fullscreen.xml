@@ -169,9 +169,9 @@
                 android:id="@+id/alarmLbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10sp"
                 android:layout_span="4"
                 android:background="#33000000"
-                android:padding="5sp"
                 android:text="! Minute Ventilation High"
                 android:textAlignment="center"
                 android:textColor="#FFEB3B"
@@ -200,38 +200,38 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#33000000"
-                        android:maxWidth="50sp"
+                        android:maxWidth="30sp"
                         android:minWidth="30sp"
                         android:text="-"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/breathingRateTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#80000000"
-                        android:maxWidth="50sp"
-                        android:minWidth="60sp"
+                        android:maxWidth="75sp"
+                        android:minWidth="75sp"
                         android:paddingStart="10sp"
                         android:paddingEnd="10sp"
                         android:text="12"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/breathingRateTargetInc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#33000000"
-                        android:maxWidth="50sp"
+                        android:maxWidth="30sp"
                         android:minWidth="30sp"
                         android:text="+"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
                 </TableRow>
 
                 <TableRow
@@ -271,21 +271,21 @@
                         android:text="-"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/inspPresTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#80000000"
-                        android:maxWidth="60sp"
-                        android:minWidth="60sp"
+                        android:maxWidth="75sp"
+                        android:minWidth="75sp"
                         android:paddingStart="10sp"
                         android:paddingEnd="10sp"
-                        android:text="20"
+                        android:text="020"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/inspPresTargetInc"
@@ -297,7 +297,7 @@
                         android:text="+"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
                 </TableRow>
 
                 <TableRow
@@ -332,38 +332,38 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#33000000"
-                        android:maxWidth="50sp"
+                        android:maxWidth="30sp"
                         android:minWidth="30sp"
                         android:text="-"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/fio2Target"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#80000000"
-                        android:maxWidth="60sp"
-                        android:minWidth="60sp"
+                        android:maxWidth="75sp"
+                        android:minWidth="75sp"
                         android:paddingStart="10sp"
                         android:paddingEnd="10sp"
                         android:text="20"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/fio2TargetInc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#33000000"
-                        android:maxWidth="50sp"
+                        android:maxWidth="30sp"
                         android:minWidth="30sp"
                         android:text="+"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
                 </TableRow>
 
                 <TableRow
@@ -376,72 +376,6 @@
                         android:layout_height="wrap_content"
                         android:layout_span="3"
                         android:text="FiO\u2082"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="18sp" />
-                </TableRow>
-
-            </TableLayout>
-
-            <TableLayout
-                android:id="@+id/peepTargetGrp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10sp">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/peepTargetDec"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#33000000"
-                        android:maxWidth="30sp"
-                        android:minWidth="30sp"
-                        android:text="-"
-                        android:textAlignment="center"
-                        android:textColor="#CCC"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/peepTarget"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#80000000"
-                        android:maxWidth="60sp"
-                        android:minWidth="60sp"
-                        android:paddingStart="10sp"
-                        android:paddingEnd="10sp"
-                        android:text="5"
-                        android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:id="@+id/peepTargetInc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#33000000"
-                        android:maxWidth="30sp"
-                        android:minWidth="30sp"
-                        android:text="+"
-                        android:textAlignment="center"
-                        android:textColor="#CCC"
-                        android:textSize="24sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/peepTargetLbl"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_span="3"
-                        android:text="PEEP"
                         android:textAlignment="center"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp" />
@@ -476,21 +410,21 @@
                         android:text="-"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/tidalVolTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#80000000"
-                        android:maxWidth="60sp"
-                        android:minWidth="60sp"
+                        android:maxWidth="75sp"
+                        android:minWidth="75sp"
                         android:paddingStart="10sp"
                         android:paddingEnd="10sp"
                         android:text="400"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/tidalVolTargetInc"
@@ -502,7 +436,7 @@
                         android:text="+"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                 </TableRow>
 
@@ -516,6 +450,72 @@
                         android:layout_height="wrap_content"
                         android:layout_span="3"
                         android:text="Tidal Volume"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TableLayout
+                android:id="@+id/peepTargetGrp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10sp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/peepTargetDec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#33000000"
+                        android:maxWidth="30sp"
+                        android:minWidth="30sp"
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="#CCC"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/peepTarget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#80000000"
+                        android:maxWidth="75sp"
+                        android:minWidth="75sp"
+                        android:paddingStart="10sp"
+                        android:paddingEnd="10sp"
+                        android:text="5"
+                        android:textAlignment="textEnd"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/peepTargetInc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#33000000"
+                        android:maxWidth="30sp"
+                        android:minWidth="30sp"
+                        android:text="+"
+                        android:textAlignment="center"
+                        android:textColor="#CCC"
+                        android:textSize="30sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/peepTargetLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:text="PEEP"
                         android:textAlignment="center"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp" />
@@ -543,21 +543,21 @@
                         android:text="-"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/ieRatioTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="#80000000"
-                        android:maxWidth="60sp"
-                        android:minWidth="60sp"
+                        android:maxWidth="75sp"
+                        android:minWidth="75sp"
                         android:paddingStart="10sp"
                         android:paddingEnd="10sp"
                         android:text="4"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
 
                     <TextView
                         android:id="@+id/ieRatioTargetInc"
@@ -569,7 +569,7 @@
                         android:text="+"
                         android:textAlignment="center"
                         android:textColor="#CCC"
-                        android:textSize="24sp" />
+                        android:textSize="30sp" />
                 </TableRow>
 
                 <TableRow
@@ -600,7 +600,7 @@
                 android:id="@+id/button5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10sp"
+                android:layout_marginStart="5sp"
                 android:text="Run \u25b6"
                 android:textSize="18sp" />
 
@@ -611,16 +611,10 @@
                 tools:visibility="invisible" />
 
             <Button
-                android:id="@+id/spanBtn2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:visibility="invisible" />
-
-            <Button
                 android:id="@+id/button6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10sp"
+                android:layout_marginStart="5sp"
                 android:text="Silence Alarm"
                 android:textSize="18sp" />
 
