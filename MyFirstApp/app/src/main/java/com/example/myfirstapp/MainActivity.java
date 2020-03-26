@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
                     usbSerialDevice.read(mCallback);
                     updateTextView("Serial Connection Opened!\n");
                 }
+            } else {
+                updateTextView("Connected device not supported\n");
             }
         }
 
@@ -62,10 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 String data = null;
                 try {
                     data = new String(arg0, "UTF-8");
-                    data.concat("/n");
-                    updateTextView(data);
+                    updateTextView(data.concat("/n"));
                 } catch (UnsupportedEncodingException e) {
-                    // Oops
+                    updateTextView("UnsupportedEncodingException\n");
                 }
             }
         };
@@ -75,9 +76,7 @@ public class MainActivity extends AppCompatActivity {
     public void updateTextView(String data) {
         TextView dataStream = findViewById(R.id.dataStream);
         String existingData = dataStream.getText().toString();
-        existingData.concat("/n");
-        existingData.concat(data);
-        dataStream.setText(existingData);
+        dataStream.setText(existingData.concat(data));
     }
 
     @Override
