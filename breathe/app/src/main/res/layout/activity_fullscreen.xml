@@ -59,52 +59,7 @@
                         android:layout_height="wrap_content"
                         android:layout_span="2"
                         android:text="Minute Ventilation"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="18sp" />
-                </TableRow>
-
-            </TableLayout>
-
-            <TableLayout
-                android:id="@+id/tidalVolGrp"
-                android:layout_width="171dp"
-                android:layout_height="match_parent"
-                android:padding="10sp">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tidalVolVal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="000"
-                        android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
-                        android:textSize="60sp" />
-
-                    <TextView
-                        android:id="@+id/tidalVolUnitLbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
-                        android:text="mL"
-                        android:textSize="18sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tidalVolLbl"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_span="2"
-                        android:text="Tidal Volume"
-                        android:textAlignment="center"
+                        android:textAlignment="viewStart"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp" />
                 </TableRow>
@@ -150,7 +105,52 @@
                         android:layout_span="2"
                         android:gravity="center|right"
                         android:text="FiO\u2082"
-                        android:textAlignment="center"
+                        android:textAlignment="viewStart"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TableLayout
+                android:id="@+id/tidalVolGrp"
+                android:layout_width="171dp"
+                android:layout_height="match_parent"
+                android:padding="10sp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tidalVolVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="000"
+                        android:textAlignment="textEnd"
+                        android:textColor="#FFFFFF"
+                        android:textSize="60sp" />
+
+                    <TextView
+                        android:id="@+id/tidalVolUnitLbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:text="mL"
+                        android:textSize="18sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tidalVolLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_span="2"
+                        android:text="Tidal Volume"
+                        android:textAlignment="viewStart"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp" />
                 </TableRow>
@@ -172,10 +172,10 @@
                 android:layout_marginEnd="10sp"
                 android:layout_span="4"
                 android:background="#33000000"
-                android:text="! Minute Ventilation High"
+                android:text="\u26a0 Minute Ventilation High \u26a0"
                 android:textAlignment="center"
                 android:textColor="#FFEB3B"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
         </TableRow>
@@ -252,72 +252,6 @@
             </TableLayout>
 
             <TableLayout
-                android:id="@+id/inspPresTargetGrp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10sp">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/inspPresTargetDec"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#33000000"
-                        android:maxWidth="30sp"
-                        android:minWidth="30sp"
-                        android:text="-"
-                        android:textAlignment="center"
-                        android:textColor="#CCC"
-                        android:textSize="30sp" />
-
-                    <TextView
-                        android:id="@+id/inspPresTarget"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#80000000"
-                        android:maxWidth="75sp"
-                        android:minWidth="75sp"
-                        android:paddingStart="10sp"
-                        android:paddingEnd="10sp"
-                        android:text="020"
-                        android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
-                        android:textSize="30sp" />
-
-                    <TextView
-                        android:id="@+id/inspPresTargetInc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="#33000000"
-                        android:maxWidth="30sp"
-                        android:minWidth="30sp"
-                        android:text="+"
-                        android:textAlignment="center"
-                        android:textColor="#CCC"
-                        android:textSize="30sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/inspPresTargetLbl"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_span="3"
-                        android:text="Insp. Pressure"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="18sp" />
-                </TableRow>
-
-            </TableLayout>
-
-            <TableLayout
                 android:id="@+id/fio2TargetGrp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -376,6 +310,72 @@
                         android:layout_height="wrap_content"
                         android:layout_span="3"
                         android:text="FiO\u2082"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TableLayout
+                android:id="@+id/inspPresTargetGrp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10sp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/inspPresTargetDec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#33000000"
+                        android:maxWidth="30sp"
+                        android:minWidth="30sp"
+                        android:text="-"
+                        android:textAlignment="center"
+                        android:textColor="#CCC"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/inspPresTarget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#80000000"
+                        android:maxWidth="75sp"
+                        android:minWidth="75sp"
+                        android:paddingStart="10sp"
+                        android:paddingEnd="10sp"
+                        android:text="20"
+                        android:textAlignment="textEnd"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/inspPresTargetInc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#33000000"
+                        android:maxWidth="30sp"
+                        android:minWidth="30sp"
+                        android:text="+"
+                        android:textAlignment="center"
+                        android:textColor="#CCC"
+                        android:textSize="30sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/inspPresTargetLbl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:text="Insp. Pressure"
                         android:textAlignment="center"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp" />
@@ -554,7 +554,7 @@
                         android:minWidth="75sp"
                         android:paddingStart="10sp"
                         android:paddingEnd="10sp"
-                        android:text="4"
+                        android:text="1:4"
                         android:textAlignment="textEnd"
                         android:textColor="#FFFFFF"
                         android:textSize="30sp" />
@@ -592,31 +592,63 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/buttonsRow"
+            android:id="@+id/hrRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:paddingStart="10sp"
+            android:paddingBottom="10sp">
 
-            <Button
-                android:id="@+id/button5"
+            <TextView
+                android:id="@+id/hrLbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5sp"
+                android:layout_marginEnd="10sp"
+                android:layout_span="4"
+                android:background="#33000000"
+                android:textAlignment="center"
+                android:textColor="#FFEB3B"
+                android:textSize="4sp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/buttonsRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/runBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:background="#4CAF50"
+                android:gravity="center_vertical"
+                android:maxHeight="40sp"
+                android:minHeight="40sp"
                 android:text="Run \u25b6"
-                android:textSize="18sp" />
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
 
             <Button
                 android:id="@+id/spanBtn1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 tools:visibility="invisible" />
 
-            <Button
-                android:id="@+id/button6"
+            <TextView
+                android:id="@+id/silenceAlarmBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5sp"
+                android:layout_marginStart="10sp"
+                android:background="#FFEB3B"
+                android:gravity="center|center_vertical"
+                android:maxHeight="40sp"
+                android:minHeight="40sp"
                 android:text="Silence Alarm"
-                android:textSize="18sp" />
+                android:textColor="#000000"
+                android:textSize="24sp" />
 
         </TableRow>
 
@@ -660,6 +692,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="#FFEB3B"
                 android:text="@string/dummy_button"
                 tools:visibility="invisible" />
 
