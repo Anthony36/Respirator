@@ -1,2 +1,2 @@
-rootProject.name='Ventilator'
+rootProject.name='Ottawa Ventilator'
 include ':app'

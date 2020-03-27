@@ -4,12 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context=".FullscreenActivity">
-
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
+    android:background="#03A9F4"
+    tools:context=".MainActivity">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -630,12 +626,11 @@
                 android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
-            <Button
-                android:id="@+id/spanBtn1"
+            <Switch
+                android:id="@+id/switch1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="invisible"
-                tools:visibility="invisible" />
+                android:text="Patient Triggered" />
 
             <TextView
                 android:id="@+id/silenceAlarmBtn"
@@ -653,50 +648,4 @@
         </TableRow>
 
     </TableLayout>
-
-    <TextView
-        android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="#00FFFFFF"
-        android:textSize="50sp"
-        android:textStyle="bold" />
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:keepScreenOn="true"
-        android:textAlignment="center"
-        tools:visibility="invisible">
-
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <Button
-                android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#FFEB3B"
-                android:text="@string/dummy_button"
-                tools:visibility="invisible" />
-
-        </LinearLayout>
-    </FrameLayout>
-
 </FrameLayout>
