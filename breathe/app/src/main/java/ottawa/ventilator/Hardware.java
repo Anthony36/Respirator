@@ -3,58 +3,53 @@ package ottawa.ventilator;
 /**
  * Class for directly interfacing with the low-level hardware.
  */
-public class Hardware {
+class Hardware {
 
     // ------------------------------
     // Messages sent down to hardware
     // ------------------------------
 
-    public float getMinuteVentilationActual() {
+    float getMinuteVentilationActual() {
         return 0;
     }
 
-    public int getTidalVolumeActual() {
+    int getTidalVolumeActual() {
         return 0;
     }
 
-    public int getFiO2Actual() {
+    int getFiO2Actual() {
         return 0;
     }
 
-    public int requestNewBreathingRateTarget(int value) {
+    int requestNewBreathingRateTarget(int value) {
         return 0;
     }
 
-    public int requestNewFio2Target(int value) {
+    int requestNewFio2Target(int value) {
         return 0;
     }
 
-
-    public int requestNewInspirationPressureTarget(int value) {
+    int requestNewInspirationPressureTarget(int value) {
         return 0;
     }
 
-    public int requestNewTidalVolumeTarget(int value) {
+    int requestNewTidalVolumeTarget(int value) {
         return 0;
     }
 
-    public int requestNewPeepTarget(int value) {
+    int requestNewPeepTarget(int value) {
         return 0;
     }
 
-   public int requestNewIeRatioTarget(int value) {
+    int requestNewIeRatioTarget(int value) {
         return 0;
     }
 
-    public void requestRun() {
+    void requestRun() {
 
     }
 
-    public void requestPause() {
-
-    }
-
-    public void runConfirmed() {
+    void requestPause() {
 
     }
 
@@ -62,77 +57,80 @@ public class Hardware {
     // Messages sent up from hardware
     // ------------------------------
 
-    public void pauseConfirmed() {
+    void runConfirmed() {
 
     }
 
-    public void setMinuteVentilationActual(float value) {
+    void pauseConfirmed() {
 
     }
 
-
-    public void setTidalVolumeActual(int value) {
-
-    }
-
-
-    public void setFiO2Actual(int value) {
+    void setMinuteVentilationActual(float value) {
 
     }
 
-    public void fireDisconnectionAlarm(boolean enable) {
+    void setTidalVolumeActual(int value) {
 
     }
 
-    public void fireMinuteVentilationHighAlarm(boolean enable) {
+    void setFiO2Actual(int value) {
 
     }
 
-    public void fireMinuteVentilationLowAlarm(boolean enable) {
+    void fireDisconnectionAlarm(boolean enable) {
 
     }
 
-    public void clearAlarms() {
+    void fireMinuteVentilationHighAlarm(boolean enable) {
 
     }
 
-    public void setBreathingRateTarget(int value) {
+    void fireMinuteVentilationLowAlarm(boolean enable) {
 
     }
 
-    public void setInspirationPressureTarget(int value) {
+    void clearAlarms() {
 
     }
 
-    public void setFiO2Target(int value) {
+    void setBreathingRateTarget(int value) {
 
     }
 
-    public void setPeepTarget(int value) {
+    void setInspirationPressureTarget(int value) {
 
     }
 
-    public void setTidalVolumeTarget(int value) {
+    void setFiO2Target(int value) {
 
     }
 
-    public void setIeRatioTarget(int value) {
+    void setPeepTarget(int value) {
 
     }
 
-    public void enableRunPauseButton(boolean enable) {
+    void setTidalVolumeTarget(int value) {
 
     }
 
-    public void setRunPauseButtonToRun() {
+    void setIeRatioTarget(int value) {
 
     }
 
-    public void setRunPauseButtonToPause() {
+    void enableRunPauseButton(boolean enable) {
 
     }
 
-    public void enableSilenceAlarmButton(boolean enable) {
+    void setRunPauseButtonToRun() {
 
     }
+
+    void setRunPauseButtonToPause() {
+
+    }
+
+    void enableSilenceAlarmButton(boolean enable) {
+
+    }
+
 }
