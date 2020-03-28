@@ -21,28 +21,28 @@ class Hardware implements HardwareAPI {
         return 0;
     }
 
-    public int requestNewBreathingRateTarget(int value) {
-        return 0;
+    public void requestNewBreathingRateTarget(int value) {
+
     }
 
-    public int requestNewFio2Target(int value) {
-        return 0;
+    public void requestNewFio2Target(int value) {
+
     }
 
-    public int requestNewInspirationPressureTarget(int value) {
-        return 0;
+    public void requestNewInspirationPressureTarget(int value) {
+
     }
 
-    public int requestNewTidalVolumeTarget(int value) {
-        return 0;
+    public void requestNewTidalVolumeTarget(int value) {
+
     }
 
-    public int requestNewPeepTarget(int value) {
-        return 0;
+    public void requestNewPeepTarget(int value) {
+
     }
 
-    public int requestNewIeRatioTarget(int value) {
-        return 0;
+    public void requestNewIeRatioTarget(int value) {
+
     }
 
     public void requestRun() {
@@ -53,8 +53,13 @@ class Hardware implements HardwareAPI {
 
     }
 
+    public void requestSilenceAlarm() {
+
+    }
+
     // ------------------------------
     // Messages sent up from hardware
+    // These may need to be wrapped in Runnables or something to prevent a crash on the UI thread
     // ------------------------------
 
     public void runConfirmed() {
@@ -114,6 +119,14 @@ class Hardware implements HardwareAPI {
     }
 
     public void setIeRatioTarget(int value) {
+
+    }
+
+    public void allowPatientTriggering(boolean allow) {
+
+    }
+
+    public void setPatientTriggeredLight(boolean allow) {
 
     }
 

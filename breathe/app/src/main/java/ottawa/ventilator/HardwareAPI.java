@@ -8,15 +8,16 @@ public interface HardwareAPI {
     int getTidalVolumeActual();
     int getFiO2Actual();
 
-    int requestNewBreathingRateTarget(int value);
-    int requestNewFio2Target(int value);
-    int requestNewInspirationPressureTarget(int value);
-    int requestNewTidalVolumeTarget(int value);
-    int requestNewPeepTarget(int value);
-    int requestNewIeRatioTarget(int value);
+    void requestNewBreathingRateTarget(int value);
+    void requestNewFio2Target(int value);
+    void requestNewInspirationPressureTarget(int value);
+    void requestNewTidalVolumeTarget(int value);
+    void requestNewPeepTarget(int value);
+    void requestNewIeRatioTarget(int value);
 
     void requestRun();
     void requestPause();
+    void requestSilenceAlarm();
 
     // Messages sent up from hardware
 
@@ -37,6 +38,9 @@ public interface HardwareAPI {
     void setPeepTarget(int value);
     void setTidalVolumeTarget(int value);
     void setIeRatioTarget(int value);
+
+    void allowPatientTriggering(boolean allow);
+    void setPatientTriggeredLight(boolean allow);
 
     void enableRunPauseButton(boolean enable);
     void setRunPauseButtonToRun();
