@@ -9,10 +9,12 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     final private Ui ui;
+    final private Hardware hardware;
 
     public MainActivity() {
         super();
-        ui = new Ui(this);
+        hardware = new Hardware();
+        ui = new Ui(this, hardware);
     }
 
     @Override
@@ -28,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void onIncrementTarget(View view) {
         ui.incrementTargetValue((TextView) view);
+    }
+
+    public void onRunPauseButtonClick(View view) {
+        ui.onRunPauseButtonClick((TextView) view);
+    }
+
+    public void onSilenceAlarmButtonClick(View view) {
+        ui.onSilenceAlarmButtonClick();
     }
 
 }

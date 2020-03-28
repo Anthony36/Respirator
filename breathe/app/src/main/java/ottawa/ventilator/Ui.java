@@ -20,6 +20,7 @@ import java.util.Set;
 class Ui {
 
     final private AppCompatActivity activity;
+    final private Hardware hardware;
 
     private TextView minVentVal, fio2Val, tidalVolVal;
 
@@ -44,30 +45,63 @@ class Ui {
     private Map<TextView, Setting> targetToSettings = new HashMap<>();
     private Map<TextView, TextView> incToTarget = new HashMap<>();
 
-    public Ui(AppCompatActivity appCompatActivity) {
+    public Ui(AppCompatActivity appCompatActivity, Hardware hardware) {
         this.activity = appCompatActivity;
+        this.hardware = hardware;
     }
 
+    // Run/Pause and Silence Alarm buttons
+
+    void onRunPauseButtonClick(TextView control) {
+        if (control.getText().toString().trim().toLowerCase().startsWith("run")) {
+            hardware.requestRun();
+            runConfirmed(); // XXX temp
+        } else {
+            hardware.requestPause();
+            pauseConfirmed(); // XXX temp
+        }
+    }
+
+    // Callback from hardware
+    void runConfirmed() {
+        clearAlarms();
+        setRunPauseButtonToPause();
+        showActuals();
+    }
+
+    // Callback from hardware
     void pauseConfirmed() {
         setRunPauseButtonToRun();
     }
 
-    void runConfirmed() {
-        setRunPauseButtonToPause();
+    void onSilenceAlarmButtonClick() {
+        hardware.requestSilenceAlarm();
     }
 
     // Actuals
 
     void setMinuteVentilationActual(float value) {
-
+        minVentVal.setText(String.format("%.1f", value));
     }
 
     void setTidalVolumeActual(int value) {
-
+        tidalVolVal.setText("" + value);
     }
 
     void setFiO2Actual(int value) {
+        fio2Val.setText("" + value);
+    }
 
+    void hideActuals() {
+        minVentVal.setAlpha(.2f);
+        tidalVolVal.setAlpha(.2f);
+        fio2Val.setAlpha(.2f);
+    }
+
+    void showActuals() {
+        minVentVal.setAlpha(1f);
+        tidalVolVal.setAlpha(1f);
+        fio2Val.setAlpha(1f);
     }
 
     // Alarms
@@ -110,8 +144,20 @@ class Ui {
         tidalVolTarget.setText("" + value);
     }
 
-    void setIeRatioTarget(String value) {
-        ieRatioTarget.setText("" + value);
+    void setIeRatioTarget(int value) {
+        ieRatioTarget.setText("1:" + value);
+    }
+
+    // Patient triggering
+
+    void allowPatientTriggering(boolean allow) {
+        patientTriggerSwitchOn.setChecked(allow);
+        patientTriggerSwitchOff.setChecked(!allow);
+        if (!allow) setPatientTriggeredLight(false);
+    }
+
+    void setPatientTriggeredLight(boolean on) {
+        patientTriggeredLight.setAlpha(on ? 1 : 0.3f);
     }
 
     // Run/Pause and Silence Buttons
@@ -127,28 +173,39 @@ class Ui {
 
     void setRunPauseButtonToPause() {
         runPauseBtn.setText("Pause \u2759 \u2759");
-        runPauseBtn.setBackgroundColor(Color.parseColor("#808080"));
+        runPauseBtn.setBackgroundColor(Color.BLACK);
     }
 
     void enableSilenceAlarmButton(boolean enable) {
         silenceAlarmBtn.setEnabled(enable);
+        silenceAlarmBtn.setAlpha(enable ? 1 : 0.2f);
     }
 
     // Target Support Methods
 
     int getTargetValue(TextView control) {
-        return Integer.parseInt(control.getText().toString());
+        String str = control.getText().toString();
+
+        if (control == ieRatioTarget) {
+            str = str.replace("1:", "");
+        }
+
+        return Integer.parseInt(str);
     }
 
     void setTargetValue(TextView control, int value) {
-        control.setText("" + value);
+        if (control == ieRatioTarget) {
+            control.setText("1:" + value);
+        } else {
+            control.setText("" + value);
+        }
     }
 
     void incrementTargetValue(TextView incControl) {
         TextView control = incToTarget.get(incControl);
         Setting setting = targetToSettings.get(control);
 
-        if (control.equals(ieRatioTarget)) {
+        if (control == ieRatioTarget) {
             String str = control.getText().toString();
             str = str.replace("1:", "");
             int value = Integer.valueOf(str) + setting.increment;
@@ -164,17 +221,36 @@ class Ui {
     void decrementTargetValue(TextView decControl) {
         TextView control = decToTarget.get(decControl);
         Setting setting = targetToSettings.get(control);
+        int value;
 
-        if (control.equals(ieRatioTarget)) {
+        if (control == ieRatioTarget) {
             String str = control.getText().toString();
             str = str.replace("1:", "");
-            int value = Integer.valueOf(str) - setting.increment;
+            value = Integer.valueOf(str) - setting.increment;
             if (value < setting.min) value = setting.min;
             control.setText("1:" + value);
         } else {
-            int value = Integer.valueOf(control.getText().toString()) - setting.increment;
+            value = Integer.valueOf(control.getText().toString()) - setting.increment;
             if (value < setting.min) value = setting.min;
             control.setText("" + value);
+        }
+
+        notifyHardwareOnTargetChange(control, value);
+    }
+
+    private void notifyHardwareOnTargetChange(View control, int newValue) {
+        if (control == breathingRateTarget) {
+            hardware.requestNewBreathingRateTarget(newValue);
+        } else if (control == fio2Target) {
+            hardware.requestNewFio2Target(newValue);
+        } else if (control == peepTarget) {
+            hardware.requestNewPeepTarget(newValue);
+        } else if (control == inspPresTarget) {
+            hardware.requestNewInspirationPressureTarget(newValue);
+        } else if (control == ieRatioTarget) {
+            hardware.requestNewIeRatioTarget(newValue);
+        } else if (control == tidalVolTarget) {
+            hardware.requestNewTidalVolumeTarget(newValue);
         }
     }
 
@@ -191,53 +267,49 @@ class Ui {
         breathingRateTarget = ((TextView) activity.findViewById(R.id.breathingRateTarget));
         breathingRateTargetInc = ((TextView) activity.findViewById(R.id.breathingRateTargetInc));
 
-            decToTarget.put(breathingRateTargetDec, breathingRateTarget);
-            targetToSettings.put(breathingRateTarget, Setting.BREATHING_RATE);
-            incToTarget.put(breathingRateTargetInc, breathingRateTarget);
+        decToTarget.put(breathingRateTargetDec, breathingRateTarget);
+        targetToSettings.put(breathingRateTarget, Setting.BREATHING_RATE);
+        incToTarget.put(breathingRateTargetInc, breathingRateTarget);
 
         fio2TargetDec = ((TextView) activity.findViewById(R.id.fio2TargetDec));
         fio2Target = ((TextView) activity.findViewById(R.id.fio2Target));
         fio2TargetInc = ((TextView) activity.findViewById(R.id.fio2TargetInc));
 
-            decToTarget.put(fio2TargetDec, fio2Target);
-            targetToSettings.put(fio2Target,Setting.FIO2);
-            incToTarget.put(fio2TargetInc, fio2Target);
+        decToTarget.put(fio2TargetDec, fio2Target);
+        targetToSettings.put(fio2Target,Setting.FIO2);
+        incToTarget.put(fio2TargetInc, fio2Target);
 
         peepTargetDec = ((TextView) activity.findViewById(R.id.peepTargetDec));
         peepTarget = ((TextView) activity.findViewById(R.id.peepTarget));
         peepTargetInc = ((TextView) activity.findViewById(R.id.peepTargetInc));
 
-            decToTarget.put(peepTargetDec, peepTarget);
-            targetToSettings.put(peepTarget, Setting.PEEP);
-            incToTarget.put(peepTargetInc, peepTarget);
+        decToTarget.put(peepTargetDec, peepTarget);
+        targetToSettings.put(peepTarget, Setting.PEEP);
+        incToTarget.put(peepTargetInc, peepTarget);
 
         inspPresTargetDec = ((TextView) activity.findViewById(R.id.inspPresTargetDec));
         inspPresTarget = ((TextView) activity.findViewById(R.id.inspPresTarget));
         inspPresTargetInc = ((TextView) activity.findViewById(R.id.inspPresTargetInc));
 
-            decToTarget.put(inspPresTargetDec, inspPresTarget);
-            targetToSettings.put(inspPresTarget, Setting.INSPIRATION_PRESSURE);
-            incToTarget.put(inspPresTargetInc, inspPresTarget);
+        decToTarget.put(inspPresTargetDec, inspPresTarget);
+        targetToSettings.put(inspPresTarget, Setting.INSPIRATION_PRESSURE);
+        incToTarget.put(inspPresTargetInc, inspPresTarget);
 
         ieRatioTargetDec = ((TextView) activity.findViewById(R.id.ieRatioTargetDec));
         ieRatioTarget = ((TextView) activity.findViewById(R.id.ieRatioTarget));
         ieRatioTargetInc = ((TextView) activity.findViewById(R.id.ieRatioTargetInc));
 
-            decToTarget.put(ieRatioTargetDec, ieRatioTarget);
-            targetToSettings.put(ieRatioTarget, Setting.IE_RATIO);
-            incToTarget.put(ieRatioTargetInc, ieRatioTarget);
+        decToTarget.put(ieRatioTargetDec, ieRatioTarget);
+        targetToSettings.put(ieRatioTarget, Setting.IE_RATIO);
+        incToTarget.put(ieRatioTargetInc, ieRatioTarget);
 
         tidalVolTargetDec = ((TextView) activity.findViewById(R.id.tidalVolTargetDec));
         tidalVolTarget = ((TextView) activity.findViewById(R.id.tidalVolTarget));
         tidalVolTargetInc = ((TextView) activity.findViewById(R.id.tidalVolTargetInc));
 
-            decToTarget.put(tidalVolTargetDec, tidalVolTarget);
-            targetToSettings.put(tidalVolTarget, Setting.TIDAL_VOLUME);
-            incToTarget.put(tidalVolTargetInc, tidalVolTarget);
-
-
-
-
+        decToTarget.put(tidalVolTargetDec, tidalVolTarget);
+        targetToSettings.put(tidalVolTarget, Setting.TIDAL_VOLUME);
+        incToTarget.put(tidalVolTargetInc, tidalVolTarget);
 
         patientTriggerSwitch = ((RadioGroup) activity.findViewById(R.id.patientTriggerSwitch));
         patientTriggerSwitchOn = ((RadioButton) activity.findViewById(R.id.patientTriggerSwitchOn));
@@ -249,7 +321,8 @@ class Ui {
         silenceAlarmBtn = ((Button) activity.findViewById(R.id.silenceAlarmBtn));
 
         setToDefaults();
-        setListeners();
+        hideActuals();
+        alarmLbl.setText("\u26a0 Waiting to Start \u26a0");
     }
 
     private void setToDefaults() {
@@ -264,14 +337,13 @@ class Ui {
         setInspirationPressureTarget(Setting.INSPIRATION_PRESSURE.defalt);
         setTidalVolumeTarget(Setting.TIDAL_VOLUME.defalt);
         setPeepTarget(Setting.PEEP.defalt);
-        setIeRatioTarget("1:" + Setting.IE_RATIO.defalt);
+        setIeRatioTarget(Setting.IE_RATIO.defalt);
+
+        allowPatientTriggering(false);
 
         enableRunPauseButton(true);
         setRunPauseButtonToRun();
         enableSilenceAlarmButton(false);
-    }
-
-    private void setListeners() {
 
     }
 
