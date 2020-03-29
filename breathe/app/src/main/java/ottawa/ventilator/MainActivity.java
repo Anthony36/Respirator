@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         mHandler = new MyHandler(this);
         String data = "o";
         usbService.changeBaudRate(9600);
+        usbService.write("o".getBytes());
+        String sResultData = mUsbReceiver.getResultData();
     }
 
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
