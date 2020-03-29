@@ -207,6 +207,15 @@ class Ui {
         } else {
             int value = Integer.valueOf(control.getText().toString()) + setting.increment;
             if (value > setting.max) value = setting.max;
+
+            if (control == peepTarget) {
+                int pipVal = getTargetValue(pipTarget);
+                if (value >= pipVal) {
+                    flashText(control);
+                    return; // PEEP can't be greater or or equal to PIP
+                }
+            }
+
             control.setText("" + value);
         }
     }
@@ -225,6 +234,15 @@ class Ui {
         } else {
             value = Integer.valueOf(control.getText().toString()) - setting.increment;
             if (value < setting.min) value = setting.min;
+
+            if (control == pipTarget) {
+                int peepVal = getTargetValue(peepTarget);
+                if (value <= peepVal) {
+                    flashText(control);
+                    return; // PIP can't be less than or equal to PEEP
+                }
+            }
+
             control.setText("" + value);
         }
 
@@ -245,6 +263,10 @@ class Ui {
         } else if (control == tidalVolTarget) {
             hardware.requestNewTidalVolumeTarget(newValue);
         }
+    }
+
+    private void flashText(TextView view) {
+        view.setTextColor(activity.getResources().getColor(R.color.clrOrange));
     }
 
     // Set up
