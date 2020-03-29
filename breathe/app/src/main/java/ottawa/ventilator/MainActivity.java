@@ -41,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
     public MainActivity() {
         super();
         hardware = new Hardware();
-        scheduler = new Scheduler();
+        scheduler = new Scheduler(this, hardware);
         ui = new Ui(this, hardware, scheduler);
+        scheduler.setUi(ui);
 
     }
 
@@ -120,13 +121,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        scheduler.pause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        scheduler.resume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        scheduler.stop();
     }
 
     // ---------------------------------------------------------------------------------------------

@@ -46,8 +46,8 @@ class Ui {
     private Map<TextView, Setting> targetToSettings = new HashMap<>();
     private Map<TextView, TextView> incToTarget = new HashMap<>();
 
-    public Ui(AppCompatActivity appCompatActivity, Hardware hardware, Scheduler scheduler) {
-        this.activity = appCompatActivity;
+    public Ui(final AppCompatActivity activity, final Hardware hardware, final Scheduler scheduler) {
+        this.activity = activity;
         this.hardware = hardware;
         this.scheduler = scheduler;
     }
@@ -136,11 +136,17 @@ class Ui {
     // Called on start
     void setTargetDefaults() {
         setBreathingRateTarget(Setting.BREATHING_RATE.defalt);
+        hardware.requestNewBreathingRateTarget(Setting.BREATHING_RATE.defalt);
         setFio2Target(Setting.FIO2.defalt);
+        hardware.requestNewFio2Target(Setting.FIO2.defalt);
         setPeepTarget(Setting.PEEP.defalt);
+        hardware.requestNewPeepTarget(Setting.PEEP.defalt);
         setPipTarget(Setting.PIP.defalt);
-        setieRatioTarget(Setting.IE_RATIO.defalt);
+        hardware.requestNewPipTarget(Setting.PIP.defalt);
+        setIeRatioTarget(Setting.IE_RATIO.defalt);
+        hardware.requestNewIeRatioTarget(Setting.IE_RATIO.defalt);
         setTitalVolumeTarget(Setting.TIDAL_VOLUME.defalt);
+        hardware.requestNewTidalVolumeTarget(Setting.TIDAL_VOLUME.defalt);
     }
 
     int getTargetValue(TextView control) {
@@ -153,27 +159,20 @@ class Ui {
         return Integer.parseInt(str);
     }
 
-    void setTargetValue(TextView control, int value) {
-        if (control == ieRatioTarget) {
-            control.setText("1:" + value);
-        } else {
-            control.setText("" + value);
-        }
-    }
-
     // Called from Activity
     void incrementTargetValue(TextView incControl) {
         TextView control = incToTarget.get(incControl);
         Setting setting = targetToSettings.get(control);
+        int value;
 
         if (control == ieRatioTarget) {
             String str = control.getText().toString();
             str = str.replace("1:", "");
-            int value = Integer.valueOf(str) + setting.increment;
+            value = Integer.valueOf(str) + setting.increment;
             if (value > setting.max) value = setting.max;
             control.setText("1:" + value);
         } else {
-            int value = Integer.valueOf(control.getText().toString()) + setting.increment;
+            value = Integer.valueOf(control.getText().toString()) + setting.increment;
             if (value > setting.max) value = setting.max;
 
             if (control == peepTarget) {
@@ -186,6 +185,9 @@ class Ui {
 
             control.setText("" + value);
         }
+
+        notifyHardwareOnTargetChange(control, value);
+        waitForTargetChangeResponse(control);
     }
 
     // Called from Activity
@@ -216,6 +218,7 @@ class Ui {
         }
 
         notifyHardwareOnTargetChange(control, value);
+        waitForTargetChangeResponse(control);
     }
 
     private void notifyHardwareOnTargetChange(View control, int newValue) {
@@ -234,32 +237,53 @@ class Ui {
         }
     }
 
-    // Called from Scheduler
+    private void waitForTargetChangeResponse(final View control) {
+        TimerTask task = new TimerTask() {
+            public void run() {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    if (control == breathingRateTarget) {
+                        setBreathingRateTarget(hardware.getBreathingRateTarget());
+                    } else if (control == fio2Target) {
+                        setFio2Target(hardware.getFio2Target());
+                    } else if (control == peepTarget) {
+                        setPeepTarget(hardware.getPeepTarget());
+                    } else if (control == pipTarget) {
+                        setPipTarget(hardware.getPipTarget());
+                    } else if (control == ieRatioTarget) {
+                        setIeRatioTarget(hardware.getIeRatioTarget());
+                    } else if (control == tidalVolTarget) {
+                        setTitalVolumeTarget(hardware.getTidalVolumeTarget());
+                    }
+                }
+            });
+            }
+        };
+
+        Timer timer = new Timer("GetTargetValue");
+        timer.schedule(task, 50L);
+    }
+
     void setBreathingRateTarget(int value) {
         breathingRateTarget.setText("" + value);
     }
 
-    // Called from Scheduler
     void setFio2Target(int value) {
         fio2Target.setText("" + value);
     }
 
-    // Called from Scheduler
     void setPeepTarget(int value) {
         peepTarget.setText("" + value);
     }
 
-    // Called from Scheduler
     void setPipTarget(int value) {
         pipTarget.setText("" + value);
     }
 
-    // Called from Scheduler
-    void setieRatioTarget(int value) {
+    void setIeRatioTarget(int value) {
         ieRatioTarget.setText("1:" + value);
     }
 
-    // Called from Scheduler
     void setTitalVolumeTarget(int value) {
         tidalVolTarget.setText("" + value);
     }
@@ -358,15 +382,15 @@ class Ui {
 
         TimerTask task = new TimerTask() {
             public void run() {
-                activity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        view.setTextColor(activity.getResources().getColor(R.color.clrWhite));
-                    }
-                });
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    view.setTextColor(activity.getResources().getColor(R.color.clrWhite));
+                }
+            });
             }
         };
 
-        Timer timer = new Timer("Timer");
+        Timer timer = new Timer("FlashText");
         timer.schedule(task, 500L);
     }
 
