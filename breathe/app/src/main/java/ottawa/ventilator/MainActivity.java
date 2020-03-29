@@ -32,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
     public MainActivity() {
         super();
         hardware = new Hardware();
-        scheduler = new Scheduler();
+        scheduler = new Scheduler(this, hardware);
         ui = new Ui(this, hardware, scheduler);
+        scheduler.setUi(ui);
 
         //Intent intent = new Intent(this, UsbService.class);
         //startService(intent);
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        scheduler.pause();
         unregisterReceiver(mUsbReceiver);
         unbindService(usbConnection);
     }
@@ -71,9 +71,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        scheduler.resume();
         setFilters();  // Start listening notifications from UsbService
         startService(UsbService.class, usbConnection, null); // Start UsbService(if it was not started before) and Bind it
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        scheduler.stop();
     }
 
     // ---------------------------------------------------------------------------------------------
