@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     final private Ui ui;
     final private Hardware hardware;
+    final private Scheduler scheduler;
+
     private MyHandler mHandler;
     private UsbService usbService;
     private StringBuilder display;
@@ -30,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     public MainActivity() {
         super();
         hardware = new Hardware();
-        ui = new Ui(this, hardware);
+        scheduler = new Scheduler();
+        ui = new Ui(this, hardware, scheduler);
 
         //Intent intent = new Intent(this, UsbService.class);
         //startService(intent);
@@ -54,11 +57,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ui.initialize();
+        scheduler.start();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        scheduler.pause();
         unregisterReceiver(mUsbReceiver);
         unbindService(usbConnection);
     }
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        scheduler.resume();
         setFilters();  // Start listening notifications from UsbService
         startService(UsbService.class, usbConnection, null); // Start UsbService(if it was not started before) and Bind it
     }

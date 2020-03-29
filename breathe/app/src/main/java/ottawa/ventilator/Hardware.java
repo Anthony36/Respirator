@@ -1,9 +1,13 @@
 package ottawa.ventilator;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Class for directly interfacing with the low-level hardware.
  */
 class Hardware implements HardwareAPI {
+
+    AtomicBoolean isRunning = new AtomicBoolean(false);
 
     public float getMinuteVentilationActual() {
         return 0;
@@ -74,7 +78,7 @@ class Hardware implements HardwareAPI {
     }
 
     public boolean isRunning() {
-        return false;
+        return isRunning.get();
     }
 
     public boolean isPaused() {

@@ -20,6 +20,7 @@ class Ui {
 
     final private AppCompatActivity activity;
     final private Hardware hardware;
+    final private Scheduler scheduler;
 
     // Controls
     private TextView minVentVal, tidalVolVal;
@@ -45,9 +46,10 @@ class Ui {
     private Map<TextView, Setting> targetToSettings = new HashMap<>();
     private Map<TextView, TextView> incToTarget = new HashMap<>();
 
-    public Ui(AppCompatActivity appCompatActivity, Hardware hardware) {
+    public Ui(AppCompatActivity appCompatActivity, Hardware hardware, Scheduler scheduler) {
         this.activity = appCompatActivity;
         this.hardware = hardware;
+        this.scheduler = scheduler;
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -159,7 +161,7 @@ class Ui {
         }
     }
 
-    // Called from UI
+    // Called from Activity
     void incrementTargetValue(TextView incControl) {
         TextView control = incToTarget.get(incControl);
         Setting setting = targetToSettings.get(control);
@@ -186,7 +188,7 @@ class Ui {
         }
     }
 
-    // Called from UI
+    // Called from Activity
     void decrementTargetValue(TextView decControl) {
         TextView control = decToTarget.get(decControl);
         Setting setting = targetToSettings.get(control);
@@ -266,23 +268,33 @@ class Ui {
     // Patient Triggering
     // ---------------------------------------------------------------------------------------------
 
-    // Called from UI
+    // Called from Activity
     void onPatientTriggeringSwitch() {
         // Get new switch value and make the request to hardware
-        // TODO
-    }
-
-    boolean getPatientTriggerSwitchSetting() {
+        // We don't yet keep track of the old setting
         int selectedId = patientTriggerSwitch.getCheckedRadioButtonId();
-        return selectedId == R.id.patientTriggerSwitchOn;
+        boolean isAllowedDisplayed = (selectedId == R.id.patientTriggerSwitchOn);
+
+        // Make the request
+        hardware.requestPatientTriggering(isAllowedDisplayed);
+
+        // TODO set timer to obtain response
+        // hardware.isPatientTriggeringAllowed();
+
+        boolean isAllowed = true; // XXX TEMP
+
+        scheduler.includePatientTriggeringCheck(isAllowed);
+        allowPatientTriggering(isAllowed);
     }
 
+    // Called on start
     void allowPatientTriggering(boolean allow) {
         patientTriggerSwitchOn.setChecked(allow);
         patientTriggerSwitchOff.setChecked(!allow);
         if (!allow) setPatientTriggeredLight(false);
     }
 
+    // Called by Scheduler
     void setPatientTriggeredLight(boolean on) {
         patientTriggeredLight.setAlpha(on ? 1 : 0.1f);
     }
@@ -291,11 +303,35 @@ class Ui {
     // Run/Pause Button
     // ---------------------------------------------------------------------------------------------
 
+    // Called from Activity
     void onRunPauseButton() {
-        if (runPauseBtn.getText().toString().trim().toLowerCase().startsWith("run")) {
+        boolean isRunDisplayed = runPauseBtn.getText().toString().trim().toLowerCase().startsWith("run");
+        boolean isRunAllowed = true; // XXX TEMP
+
+        if (isRunDisplayed) {
             hardware.requestRun();
+            // TODO set timer to obtain response
+            // hardware.isRunning();
+            isRunAllowed = true; // XXX TEMP
         } else {
             hardware.requestPause();
+            // TODO set timer to obtain response
+            // hardware.isPaused();
+            isRunAllowed = false; // XXX TEMP
+        }
+
+        setToRunning(isRunAllowed);
+    }
+
+    // Called from Scheduler
+    void setToRunning(boolean isRunning) {
+        enableRunPauseButton(isRunning);
+
+        if (isRunning) {
+            setRunPauseButtonToRun();
+            showActuals();
+        } else {
+            setRunPauseButtonToPause();
         }
     }
 
@@ -311,13 +347,6 @@ class Ui {
     void setRunPauseButtonToPause() {
         runPauseBtn.setText("Pause  \u2759\u2759");
         runPauseBtn.setBackgroundColor(activity.getResources().getColor(R.color.clrBlue2));
-    }
-
-    // Callback from hardware
-    void runConfirmed() {
-        clearAlarms();
-        setRunPauseButtonToPause();
-        showActuals();
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -411,6 +440,8 @@ class Ui {
         setToDefaults();
         hideActuals();
         alarmLbl.setText("\u26a0 Waiting to Start \u26a0");
+
+        // TODO Disable Run button until isRunAllowed() returns true
     }
 
     private void setToDefaults() {

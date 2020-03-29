@@ -1,5 +1,7 @@
 package ottawa.ventilator;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Polls hardware on a timer. Any code that touches the UI must be spun off to run on the UI thread.
  *
@@ -18,7 +20,33 @@ package ottawa.ventilator;
  *      Running allowed
  *      Paused allowed
  */
-public class Scheduler {
+class Scheduler {
+
+    AtomicBoolean checkPatientTriggering = new AtomicBoolean(false);
+
+    // Called on application life cycle change
+    void start() {
+
+    }
+
+    // Called on application life cycle change
+    void pause() {
+
+    }
+
+    // Called on application life cycle change
+    void resume() {
+
+    }
+
+    // Called on application life cycle change
+    void stop() {
+
+    }
+
+    void includePatientTriggeringCheck(boolean include) {
+        checkPatientTriggering.set(include);
+    }
 
     /*
        TimerTask task = new TimerTask() {
