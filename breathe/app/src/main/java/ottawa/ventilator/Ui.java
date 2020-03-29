@@ -105,9 +105,7 @@ class Ui {
     }
 
     // Called from Scheduler
-    void pollAlarms() {
-        int alarm = hardware.getAlarm();
-
+    void setAlarm(int alarm) {
         switch (alarm) {
             case 0: // No alarm
                 clearAlarms();
@@ -136,16 +134,20 @@ class Ui {
     // Called on start
     void setTargetDefaults() {
         setBreathingRateTarget(Setting.BREATHING_RATE.defalt);
-        hardware.requestNewBreathingRateTarget(Setting.BREATHING_RATE.defalt);
         setFio2Target(Setting.FIO2.defalt);
-        hardware.requestNewFio2Target(Setting.FIO2.defalt);
         setPeepTarget(Setting.PEEP.defalt);
-        hardware.requestNewPeepTarget(Setting.PEEP.defalt);
         setPipTarget(Setting.PIP.defalt);
-        hardware.requestNewPipTarget(Setting.PIP.defalt);
         setIeRatioTarget(Setting.IE_RATIO.defalt);
-        hardware.requestNewIeRatioTarget(Setting.IE_RATIO.defalt);
         setTitalVolumeTarget(Setting.TIDAL_VOLUME.defalt);
+    }
+
+    // Called on can run
+    void requestTargetsToHardware() {
+        hardware.requestNewBreathingRateTarget(Setting.BREATHING_RATE.defalt);
+        hardware.requestNewFio2Target(Setting.FIO2.defalt);
+        hardware.requestNewPeepTarget(Setting.PEEP.defalt);
+        hardware.requestNewPipTarget(Setting.PIP.defalt);
+        hardware.requestNewIeRatioTarget(Setting.IE_RATIO.defalt);
         hardware.requestNewTidalVolumeTarget(Setting.TIDAL_VOLUME.defalt);
     }
 
@@ -221,6 +223,7 @@ class Ui {
         waitForTargetChangeResponse(control);
     }
 
+    // Called after '-' or '+'
     private void notifyHardwareOnTargetChange(View control, int newValue) {
         if (control == breathingRateTarget) {
             hardware.requestNewBreathingRateTarget(newValue);
@@ -237,6 +240,7 @@ class Ui {
         }
     }
 
+    // Called after '-' or '+'
     private void waitForTargetChangeResponse(final View control) {
         TimerTask task = new TimerTask() {
             public void run() {
@@ -260,8 +264,27 @@ class Ui {
             }
         };
 
-        Timer timer = new Timer("GetTargetValue");
-        timer.schedule(task, 50L);
+        new Timer("GetTargetValue").schedule(task, 50L);
+    }
+
+    // Called on Run button pressed
+    private void waitForTargetChangeResponseAll() {
+        TimerTask task = new TimerTask() {
+            public void run() {
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        setBreathingRateTarget(hardware.getBreathingRateTarget());
+                        setFio2Target(hardware.getFio2Target());
+                        setPeepTarget(hardware.getPeepTarget());
+                        setPipTarget(hardware.getPipTarget());
+                        setIeRatioTarget(hardware.getIeRatioTarget());
+                        setTitalVolumeTarget(hardware.getTidalVolumeTarget());
+                    }
+                });
+                }
+        };
+
+        new Timer("GetTargetValuesAll").schedule(task, 50L);
     }
 
     void setBreathingRateTarget(int value) {
@@ -299,28 +322,36 @@ class Ui {
         int selectedId = patientTriggerSwitch.getCheckedRadioButtonId();
         boolean isAllowedDisplayed = (selectedId == R.id.patientTriggerSwitchOn);
 
-        // Make the request
+        // Fire the request down and forget it. The Scheduler will poll for the reponse in 200 ms or less.
         hardware.requestPatientTriggering(isAllowedDisplayed);
-
-        // TODO set timer to obtain response
-        // hardware.isPatientTriggeringAllowed();
-
-        boolean isAllowed = true; // XXX TEMP
-
-        scheduler.includePatientTriggeringCheck(isAllowed);
-        allowPatientTriggering(isAllowed);
     }
 
     // Called on start
     void allowPatientTriggering(boolean allow) {
         patientTriggerSwitchOn.setChecked(allow);
         patientTriggerSwitchOff.setChecked(!allow);
-        if (!allow) setPatientTriggeredLight(false);
+        if (!allow) patientTriggeredLight.setAlpha(0.1f);
     }
 
     // Called by Scheduler
     void setPatientTriggeredLight(boolean on) {
         patientTriggeredLight.setAlpha(on ? 1 : 0.1f);
+
+        if (on) {
+            allowPatientTriggering(true);
+            // Keep the light on for 2 seconds, then turn off
+            TimerTask task = new TimerTask() {
+                public void run() {
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        patientTriggeredLight.setAlpha(0.1f);
+                    }
+                });
+                }
+            };
+
+            new Timer("PatientTriggeredLightOffTimer").schedule(task, 2000L);
+        }
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -329,22 +360,27 @@ class Ui {
 
     // Called from Activity
     void onRunPauseButton() {
+        // Not sure yet if the button text state is changed before or after this call from the system
         boolean isRunDisplayed = runPauseBtn.getText().toString().trim().toLowerCase().startsWith("run");
-        boolean isRunAllowed = true; // XXX TEMP
 
         if (isRunDisplayed) {
             hardware.requestRun();
-            // TODO set timer to obtain response
-            // hardware.isRunning();
-            isRunAllowed = true; // XXX TEMP
         } else {
             hardware.requestPause();
-            // TODO set timer to obtain response
-            // hardware.isPaused();
-            isRunAllowed = false; // XXX TEMP
         }
 
-        setToRunning(isRunAllowed);
+        // Obtain response in 200 ms
+        TimerTask task = new TimerTask() {
+            public void run() {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    setToRunning(hardware.isRunning());
+                }
+            });
+            }
+        };
+
+        new Timer("WaitingIsRunningResponse").schedule(task, 200L);
     }
 
     // Called from Scheduler
@@ -354,6 +390,8 @@ class Ui {
         if (isRunning) {
             setRunPauseButtonToRun();
             showActuals();
+            requestTargetsToHardware();
+            waitForTargetChangeResponseAll();
         } else {
             setRunPauseButtonToPause();
         }
@@ -390,8 +428,7 @@ class Ui {
             }
         };
 
-        Timer timer = new Timer("FlashText");
-        timer.schedule(task, 500L);
+        new Timer("FlashText").schedule(task, 500L);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -464,8 +501,7 @@ class Ui {
         setToDefaults();
         hideActuals();
         alarmLbl.setText("\u26a0 Waiting to Start \u26a0");
-
-        // TODO Disable Run button until isRunAllowed() returns true
+        waitForHardwareReady();
     }
 
     private void setToDefaults() {
@@ -479,9 +515,33 @@ class Ui {
         allowPatientTriggering(false);
         setPatientTriggeredLight(false);
 
-        enableRunPauseButton(true);
+        // Disable Run button until isRunAllowed() returns true
+        enableRunPauseButton(false);
         setRunPauseButtonToRun();
         enableSilenceAlarmButton(false);
+    }
+
+    private void waitForHardwareReady() {
+        // Poll every 200 ms until running is allowed
+        final Timer timer = new Timer("WaitingOnRunAllowed");
+
+        TimerTask task = new TimerTask() {
+            public void run() {
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    boolean canRun = hardware.isRunAllowed();
+                    if (canRun) {
+                        timer.cancel();
+                        enableRunPauseButton(true);
+                        requestTargetsToHardware();
+                        waitForTargetChangeResponseAll();
+                    }
+                }
+            });
+            }
+        };
+
+        timer.scheduleAtFixedRate(task, 50L, 200L);
     }
 
 }

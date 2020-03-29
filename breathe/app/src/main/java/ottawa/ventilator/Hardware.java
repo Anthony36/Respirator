@@ -7,8 +7,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 class Hardware implements HardwareAPI {
 
-    AtomicBoolean isRunning = new AtomicBoolean(false);
-
     public float getMinuteVentilationActual() {
         return 0;
     }
@@ -78,7 +76,7 @@ class Hardware implements HardwareAPI {
     }
 
     public boolean isRunning() {
-        return isRunning.get();
+        return false;
     }
 
     public boolean isPaused() {
