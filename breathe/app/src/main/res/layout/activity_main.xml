@@ -4,216 +4,123 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#03A9F4"
+    android:background="@color/clrGray6"
     tools:context=".MainActivity">
 
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="-10dp">
 
         <TableRow
             android:id="@+id/statusRow"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TableLayout
-                android:id="@+id/minVentGrp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:id="@+id/minVentVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_span="2"
-                android:padding="10sp">
+                android:text="00.0"
+                android:textAlignment="textEnd"
+                android:textColor="@color/clrWhite"
+                android:textSize="130sp" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:text="L/M"
+                android:textColor="@color/clrGray3"
+                android:textSize="24sp" />
 
-                    <TextView
-                        android:id="@+id/minVentVal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:maxWidth="320dp"
-                        android:minWidth="320dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="00.0"
-                        android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
-                        android:textSize="100sp" />
-
-                    <TextView
-                        android:id="@+id/minVentUnitLbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
-                        android:text="L/M"
-                        android:textSize="30sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center|center_horizontal">
-
-                    <TextView
-                        android:id="@+id/minVentLbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_span="1"
-                        android:text="Minute Ventilation"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
-                </TableRow>
-
-            </TableLayout>
-
-            <TableLayout
-                android:id="@+id/fio2Grp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:id="@+id/tidalVolVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_span="2"
-                android:padding="10sp">
+                android:text="000"
+                android:textAlignment="textEnd"
+                android:textColor="@color/clrWhite"
+                android:textSize="130sp" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:text="mL"
+                android:textColor="@color/clrGray3"
+                android:textSize="24sp" />
+        </TableRow>
 
-                    <TextView
-                        android:id="@+id/fio2Val"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:maxWidth="320dp"
-                        android:minWidth="320dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="000"
-                        android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
-                        android:textSize="100sp" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/fio2UnitLbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
-                        android:text="%"
-                        android:textSize="30sp" />
-                </TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:text="Minute Ventiliation"
+                android:textAlignment="textEnd"
+                android:textColor="@color/clrGray2"
+                android:textSize="24sp" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/fio2Lbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_span="2"
-                        android:text="FiO\u2082"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
-                </TableRow>
-
-            </TableLayout>
-
-            <TableLayout
-                android:id="@+id/tidalVolGrp"
-                android:layout_width="171dp"
-                android:layout_height="match_parent"
-                android:padding="10sp"
-                tools:layout_span="2">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tidalVolVal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif"
-                        android:maxWidth="320dp"
-                        android:minWidth="320dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="000"
-                        android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
-                        android:textSize="100sp" />
-
-                    <TextView
-                        android:id="@+id/tidalVolUnitLbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
-                        android:text="mL"
-                        android:textSize="30sp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tidalVolLbl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_span="2"
-                        android:text="Tidal Volume"
-                        android:textAlignment="center"
-                        android:textColor="#FFFFFF"
-                        android:textSize="24sp" />
-                </TableRow>
-
-            </TableLayout>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:text="Titdal Volume"
+                android:textAlignment="textEnd"
+                android:textColor="@color/clrGray2"
+                android:textSize="24sp" />
         </TableRow>
 
         <TableRow
             android:id="@+id/alarmRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp">
 
             <TextView
                 android:id="@+id/alarmLbl"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10sp"
                 android:layout_span="6"
-                android:background="#33000000"
+                android:background="@color/clrGray5"
+                android:padding="5dp"
                 android:text="\u26a0 Minute Ventilation High \u26a0"
                 android:textAlignment="center"
-                android:textColor="#FFEB3B"
+                android:textColor="@color/clrOrange"
                 android:textSize="36sp"
                 android:textStyle="bold" />
 
         </TableRow>
 
         <TableRow
-            android:id="@+id/controlsRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/targetsRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingTop="30dp">
 
             <TableLayout
                 android:id="@+id/breathRateTargetGrp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
                 android:padding="10sp">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/breathingRateTargetDec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -221,14 +128,15 @@
                         android:onClick="onDecrementTarget"
                         android:text="-"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
 
                     <TextView
                         android:id="@+id/breathingRateTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#80000000"
+                        android:background="@color/clrGray4"
+                        android:clickable="false"
                         android:maxWidth="60dp"
                         android:maxHeight="60dp"
                         android:minWidth="100dp"
@@ -237,14 +145,14 @@
                         android:paddingEnd="10dp"
                         android:text="12"
                         android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrWhite"
                         android:textSize="40sp" />
 
                     <TextView
                         android:id="@+id/breathingRateTargetInc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -252,22 +160,24 @@
                         android:onClick="onIncrementTarget"
                         android:text="+"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/breathingRateTargetLbl"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_span="3"
+                        android:clickable="false"
                         android:text="Breathing Rate"
                         android:textAlignment="center"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrGray2"
                         android:textSize="24sp" />
                 </TableRow>
 
@@ -275,19 +185,20 @@
 
             <TableLayout
                 android:id="@+id/fio2TargetGrp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
                 android:padding="10sp">
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/fio2TargetDec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -295,14 +206,15 @@
                         android:onClick="onDecrementTarget"
                         android:text="-"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
 
                     <TextView
                         android:id="@+id/fio2Target"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#80000000"
+                        android:background="@color/clrGray4"
+                        android:clickable="false"
                         android:maxWidth="100dp"
                         android:maxHeight="60dp"
                         android:minWidth="100dp"
@@ -311,14 +223,14 @@
                         android:paddingEnd="10dp"
                         android:text="20"
                         android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrWhite"
                         android:textSize="40sp" />
 
                     <TextView
                         android:id="@+id/fio2TargetInc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -326,22 +238,24 @@
                         android:onClick="onIncrementTarget"
                         android:text="+"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/fio2TargetLbl"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_span="3"
+                        android:clickable="false"
                         android:text="FiO\u2082"
                         android:textAlignment="center"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrGray2"
                         android:textSize="24sp" />
                 </TableRow>
 
@@ -349,19 +263,20 @@
 
             <TableLayout
                 android:id="@+id/peepTargetGrp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
                 android:padding="10sp">
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/peepTargetDec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -369,14 +284,15 @@
                         android:onClick="onDecrementTarget"
                         android:text="-"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
 
                     <TextView
                         android:id="@+id/peepTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#80000000"
+                        android:background="@color/clrGray4"
+                        android:clickable="false"
                         android:maxWidth="100dp"
                         android:maxHeight="60dp"
                         android:minWidth="100dp"
@@ -392,7 +308,7 @@
                         android:id="@+id/peepTargetInc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -400,42 +316,45 @@
                         android:onClick="onIncrementTarget"
                         android:text="+"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/peepTargetLbl"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_span="3"
+                        android:clickable="false"
                         android:text="PEEP"
                         android:textAlignment="center"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrGray2"
                         android:textSize="24sp" />
                 </TableRow>
 
             </TableLayout>
 
             <TableLayout
-                android:id="@+id/inspPresTargetGrp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/pipTargetGrp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
                 android:padding="10sp">
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/inspPresTargetDec"
+                        android:id="@+id/pipTargetDec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -443,14 +362,15 @@
                         android:onClick="onDecrementTarget"
                         android:text="-"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
 
                     <TextView
-                        android:id="@+id/inspPresTarget"
+                        android:id="@+id/pipTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#80000000"
+                        android:background="@color/clrGray4"
+                        android:clickable="false"
                         android:maxWidth="100dp"
                         android:maxHeight="60dp"
                         android:minWidth="100dp"
@@ -459,14 +379,14 @@
                         android:paddingEnd="10dp"
                         android:text="20"
                         android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrWhite"
                         android:textSize="40sp" />
 
                     <TextView
-                        android:id="@+id/inspPresTargetInc"
+                        android:id="@+id/pipTargetInc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -474,22 +394,24 @@
                         android:onClick="onIncrementTarget"
                         android:text="+"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/inspPresTargetLbl"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_span="3"
-                        android:text="Insp. Pressure"
+                        android:clickable="false"
+                        android:text="PIP"
                         android:textAlignment="center"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrGray2"
                         android:textSize="24sp" />
                 </TableRow>
 
@@ -497,19 +419,20 @@
 
             <TableLayout
                 android:id="@+id/ieRatioTargetGrp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
                 android:padding="10sp">
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/ieRatioTargetDec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -517,14 +440,15 @@
                         android:onClick="onDecrementTarget"
                         android:text="-"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
 
                     <TextView
                         android:id="@+id/ieRatioTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#80000000"
+                        android:background="@color/clrGray4"
+                        android:clickable="false"
                         android:maxWidth="100dp"
                         android:maxHeight="60dp"
                         android:minWidth="100dp"
@@ -533,14 +457,14 @@
                         android:paddingEnd="10dp"
                         android:text="1:4"
                         android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrWhite"
                         android:textSize="40sp" />
 
                     <TextView
                         android:id="@+id/ieRatioTargetInc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -548,22 +472,24 @@
                         android:onClick="onIncrementTarget"
                         android:text="+"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/ieRatioTargetLbl"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_span="3"
+                        android:clickable="false"
                         android:text="I:E Ratio"
                         android:textAlignment="center"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrGray2"
                         android:textSize="24sp" />
                 </TableRow>
 
@@ -571,19 +497,20 @@
 
             <TableLayout
                 android:id="@+id/tidalVolTargetGrp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="1"
                 android:padding="10sp">
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tidalVolTargetDec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -591,14 +518,15 @@
                         android:onClick="onDecrementTarget"
                         android:text="-"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
 
                     <TextView
                         android:id="@+id/tidalVolTarget"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#80000000"
+                        android:background="@color/clrGray4"
+                        android:clickable="false"
                         android:maxWidth="100dp"
                         android:maxHeight="60dp"
                         android:minWidth="100dp"
@@ -607,14 +535,14 @@
                         android:paddingEnd="10dp"
                         android:text="400"
                         android:textAlignment="textEnd"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrWhite"
                         android:textSize="40sp" />
 
                     <TextView
                         android:id="@+id/tidalVolTargetInc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#33000000"
+                        android:background="@color/clrBlack"
                         android:maxWidth="40dp"
                         android:maxHeight="60dp"
                         android:minWidth="40dp"
@@ -622,23 +550,25 @@
                         android:onClick="onIncrementTarget"
                         android:text="+"
                         android:textAlignment="center"
-                        android:textColor="#CCC"
+                        android:textColor="@color/clrGray2"
                         android:textSize="36sp" />
 
                 </TableRow>
 
                 <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tidalVolTargetLbl"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_span="3"
+                        android:clickable="false"
                         android:text="Tidal Volume"
                         android:textAlignment="center"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/clrGray2"
                         android:textSize="24sp" />
                 </TableRow>
 
@@ -647,46 +577,17 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/patientRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="30dp">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_span="2"
-                android:text="Allow Patient Triggering"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_span="2"
-                android:text="Patient Triggered"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/patientRow2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/patientRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="5dp">
+            android:paddingTop="10dp">
 
             <RadioGroup
-                android:id="@+id/patientTriggerSwitch"
+                android:id="@+id/patientTriggerSwitchGrp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="bottom|center_horizontal"
                 android:layout_span="2"
                 android:orientation="horizontal">
 
@@ -694,20 +595,22 @@
                     android:id="@+id/patientTriggerSwitchOn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:checked="true"
+                    android:clickable="true"
                     android:text="Allow"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
+                    android:textColor="@color/clrWhite"
+                    android:textSize="24sp"
+                    app:buttonTint="@color/clrGreen" />
 
                 <RadioButton
                     android:id="@+id/patientTriggerSwitchOff"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:text="Off"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
+                    android:textColor="@color/clrWhite"
+                    android:textSize="24sp"
+                    app:buttonTint="@color/clrGreen" />
 
             </RadioGroup>
 
@@ -715,9 +618,10 @@
                 android:id="@+id/patientTriggeredLight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="bottom|center_horizontal"
                 android:layout_span="2"
-                android:background="#FFC107"
+                android:background="@color/clrCyan"
+                android:clickable="false"
                 android:maxWidth="40dp"
                 android:minWidth="40dp"
                 android:padding="5dp"
@@ -728,9 +632,41 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/patientRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_span="2"
+                android:clickable="false"
+                android:text="Allow Patient Triggering"
+                android:textAlignment="center"
+                android:textColor="@color/clrGray2"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_span="2"
+                android:clickable="false"
+                android:text="Patient Triggered"
+                android:textAlignment="center"
+                android:textColor="@color/clrGray2"
+                android:textSize="24sp" />
+
+        </TableRow>
+
+        <TableRow
             android:id="@+id/buttonsRow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:paddingTop="30dp">
 
             <Button
@@ -738,13 +674,12 @@
                 style="@android:style/Widget.DeviceDefault.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_span="2"
-                android:background="#4CAF50"
+                android:background="@color/clrGreen"
                 android:onClick="onRunPauseButtonClick"
                 android:padding="10dp"
                 android:text="Run \u25b6"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/clrWhite"
                 android:textSize="30sp" />
 
             <Button
@@ -753,7 +688,6 @@
                 android:layout_height="wrap_content"
                 android:layout_span="2"
                 android:clickable="false"
-                android:text="Button"
                 android:visibility="invisible" />
 
             <Button
@@ -761,13 +695,12 @@
                 style="@android:style/Widget.DeviceDefault.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_span="2"
-                android:background="#FFEB3B"
+                android:background="@color/clrOrange"
                 android:onClick="onSilenceAlarmButtonClick"
                 android:padding="10dp"
                 android:text="Silence Alarm"
-                android:textColor="#000000"
+                android:textColor="@color/clrWhite"
                 android:textSize="30sp" />
 
         </TableRow>

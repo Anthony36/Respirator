@@ -40,4 +40,8 @@ public class MainActivity extends AppCompatActivity {
         ui.onSilenceAlarmButtonClick();
     }
 
+    public void onPatientTriggeringSwitch(View view) {
+
+    }
+
 }

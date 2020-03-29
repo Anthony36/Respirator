@@ -17,10 +17,6 @@ class Hardware implements HardwareAPI {
         return 0;
     }
 
-    public int getFiO2Actual() {
-        return 0;
-    }
-
     public void requestNewBreathingRateTarget(int value) {
 
     }
@@ -29,7 +25,7 @@ class Hardware implements HardwareAPI {
 
     }
 
-    public void requestNewInspirationPressureTarget(int value) {
+    public void requestNewPipTarget(int value) {
 
     }
 
@@ -78,10 +74,6 @@ class Hardware implements HardwareAPI {
 
     }
 
-    public void setFiO2Actual(int value) {
-
-    }
-
     public void fireDisconnectionAlarm(boolean enable) {
 
     }
@@ -102,7 +94,7 @@ class Hardware implements HardwareAPI {
 
     }
 
-    public void setInspirationPressureTarget(int value) {
+    public void setPipTarget(int value) {
 
     }
 
