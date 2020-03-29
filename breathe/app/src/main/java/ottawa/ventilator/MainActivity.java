@@ -13,8 +13,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,12 +82,12 @@ public class MainActivity extends AppCompatActivity {
         ui.incrementTargetValue((TextView) view);
     }
 
-    public void onRunPauseButtonClick(View view) {
-        ui.onRunPauseButtonClick((TextView) view);
+    public void onRunPauseButton(View view) {
+        ui.onRunPauseButton((TextView) view);
     }
 
-    public void onSilenceAlarmButtonClick(View view) {
-        ui.onSilenceAlarmButtonClick();
+    public void onSilenceAlarmButton(View view) {
+        ui.onSilenceAlarmButton();
     }
 
     public void onPatientTriggeringSwitch(View view) {

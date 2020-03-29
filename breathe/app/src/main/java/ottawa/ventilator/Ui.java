@@ -40,7 +40,7 @@ class Ui {
 
     private Button runPauseBtn, silenceAlarmBtn;
 
-    // Map increment and decrement views to the target controls
+    // Map '-' and '+' views to the target controls
     private Map<TextView, TextView> decToTarget = new HashMap<>();
     private Map<TextView, Setting> targetToSettings = new HashMap<>();
     private Map<TextView, TextView> incToTarget = new HashMap<>();
@@ -50,35 +50,9 @@ class Ui {
         this.hardware = hardware;
     }
 
-    // Run/Pause and Silence Alarm buttons
-
-    void onRunPauseButtonClick(TextView control) {
-        if (control.getText().toString().trim().toLowerCase().startsWith("run")) {
-            hardware.requestRun();
-            runConfirmed(); // XXX temp
-        } else {
-            hardware.requestPause();
-            pauseConfirmed(); // XXX temp
-        }
-    }
-
-    // Callback from hardware
-    void runConfirmed() {
-        clearAlarms();
-        setRunPauseButtonToPause();
-        showActuals();
-    }
-
-    // Callback from hardware
-    void pauseConfirmed() {
-        setRunPauseButtonToRun();
-    }
-
-    void onSilenceAlarmButtonClick() {
-        hardware.requestSilenceAlarm();
-    }
-
+    // ---------------------------------------------------------------------------------------------
     // Actuals
+    // ---------------------------------------------------------------------------------------------
 
     void setMinuteVentilationActual(float value) {
         minVentVal.setText(String.format("%.1f", value));
@@ -88,28 +62,55 @@ class Ui {
         tidalVolVal.setText("" + value);
     }
 
+    // Called from Scheduler
+    void pollMinuteVentilationActual() {
+        setMinuteVentilationActual(hardware.getMinuteVentilationActual());
+    }
+
+    // Called from Scheduler
+    void pollTidalVolumeActual() {
+        setTidalVolumeActual(hardware.getTidalVolumeActual());
+    }
+
+    // Not used
     void hideActuals() {
         minVentVal.setAlpha(.1f);
         tidalVolVal.setAlpha(.1f);
     }
 
+    // Used on start
     void showActuals() {
         minVentVal.setAlpha(1f);
         tidalVolVal.setAlpha(1f);
     }
 
+    // ---------------------------------------------------------------------------------------------
     // Alarms
+    // ---------------------------------------------------------------------------------------------
 
-    void fireDisconnectionAlarm(boolean enable) {
-        alarmLbl.setText("\u26a0 Disconnection \u26a0");
-    }
+    // Called from Scheduler
+    void pollAlarms() {
+        int alarm = hardware.getAlarm();
 
-    void fireMinuteVentilationHighAlarm(boolean enable) {
-        alarmLbl.setText("\u26a0 Minute Ventilation High \u26a0");
-    }
-
-    void fireMinuteVentilationLowAlarm(boolean enable) {
-        alarmLbl.setText("\u26a0 Minute Ventilation Low \u26a0");
+        switch (alarm) {
+            case 0: // No alarm
+                clearAlarms();
+                break;
+            case 1: // Disconnect
+                alarmLbl.setText("\u26a0 Disconnection \u26a0");
+                enableSilenceAlarmButton(true);
+                break;
+            case 2: // Minute Vent. Low
+                alarmLbl.setText("\u26a0 Minute Ventilation Low \u26a0");
+                enableSilenceAlarmButton(true);
+                break;
+            case 3: // Minute vent. high
+                alarmLbl.setText("\u26a0 Minute Ventilation High \u26a0");
+                enableSilenceAlarmButton(true);
+                break;
+            default:
+                System.out.println("Unexpected alarm value " + alarm);
+        }
     }
 
     void clearAlarms() {
@@ -117,7 +118,9 @@ class Ui {
         enableSilenceAlarmButton(false);
     }
 
+    // ---------------------------------------------------------------------------------------------
     // Target Settings
+    // ---------------------------------------------------------------------------------------------
 
     void setBreathingRateTarget(int value) {
         breathingRateTarget.setText("" + value);
@@ -142,41 +145,6 @@ class Ui {
     void setIeRatioTarget(int value) {
         ieRatioTarget.setText("1:" + value);
     }
-
-    // Patient triggering
-
-    void allowPatientTriggering(boolean allow) {
-        patientTriggerSwitchOn.setChecked(allow);
-        patientTriggerSwitchOff.setChecked(!allow);
-        if (!allow) setPatientTriggeredLight(false);
-    }
-
-    void setPatientTriggeredLight(boolean on) {
-        patientTriggeredLight.setAlpha(on ? 1 : 0.1f);
-    }
-
-    // Run/Pause and Silence Buttons
-
-    void enableRunPauseButton(boolean enable) {
-        runPauseBtn.setEnabled(enable);
-    }
-
-    void setRunPauseButtonToRun() {
-        runPauseBtn.setText("Run \u25b6");
-        runPauseBtn.setBackgroundColor(activity.getResources().getColor(R.color.clrGreen));
-    }
-
-    void setRunPauseButtonToPause() {
-        runPauseBtn.setText("Pause  \u2759\u2759");
-        runPauseBtn.setBackgroundColor(activity.getResources().getColor(R.color.clrBlue2));
-    }
-
-    void enableSilenceAlarmButton(boolean enable) {
-        silenceAlarmBtn.setEnabled(enable);
-        silenceAlarmBtn.setAlpha(enable ? 1 : 0.1f);
-    }
-
-    // Target Support Methods
 
     int getTargetValue(TextView control) {
         String str = control.getText().toString();
@@ -267,6 +235,71 @@ class Ui {
         }
     }
 
+    // ---------------------------------------------------------------------------------------------
+    // Patient Triggering
+    // ---------------------------------------------------------------------------------------------
+
+    // Called from UI
+    void onPatientTriggeringSwitch(View view) {
+
+    }
+
+    void allowPatientTriggering(boolean allow) {
+        patientTriggerSwitchOn.setChecked(allow);
+        patientTriggerSwitchOff.setChecked(!allow);
+        if (!allow) setPatientTriggeredLight(false);
+    }
+
+    void setPatientTriggeredLight(boolean on) {
+        patientTriggeredLight.setAlpha(on ? 1 : 0.1f);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Run/Pause and Silence Buttons
+    // ---------------------------------------------------------------------------------------------
+
+    void onRunPauseButton(TextView control) {
+        if (control.getText().toString().trim().toLowerCase().startsWith("run")) {
+            hardware.requestRun();
+        } else {
+            hardware.requestPause();
+        }
+    }
+
+    // Callback from hardware
+    void runConfirmed() {
+        clearAlarms();
+        setRunPauseButtonToPause();
+        showActuals();
+    }
+
+    void onSilenceAlarmButton() {
+        hardware.requestSilenceAlarm();
+    }
+
+    void enableRunPauseButton(boolean enable) {
+        runPauseBtn.setEnabled(enable);
+    }
+
+    void setRunPauseButtonToRun() {
+        runPauseBtn.setText("Run \u25b6");
+        runPauseBtn.setBackgroundColor(activity.getResources().getColor(R.color.clrGreen));
+    }
+
+    void setRunPauseButtonToPause() {
+        runPauseBtn.setText("Pause  \u2759\u2759");
+        runPauseBtn.setBackgroundColor(activity.getResources().getColor(R.color.clrBlue2));
+    }
+
+    void enableSilenceAlarmButton(boolean enable) {
+        silenceAlarmBtn.setEnabled(enable);
+        silenceAlarmBtn.setAlpha(enable ? 1 : 0.1f);
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Other
+    // ---------------------------------------------------------------------------------------------
+
     private void flashText(final TextView view) {
         view.setTextColor(activity.getResources().getColor(R.color.clrOrange));
 
@@ -284,7 +317,9 @@ class Ui {
         timer.schedule(task, 500L);
     }
 
+    // ---------------------------------------------------------------------------------------------
     // Set up
+    // ---------------------------------------------------------------------------------------------
 
     void initialize() {
         minVentVal = ((TextView) activity.findViewById(R.id.minVentVal));
