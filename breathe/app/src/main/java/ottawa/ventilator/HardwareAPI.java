@@ -2,11 +2,11 @@ package ottawa.ventilator;
 
 public interface HardwareAPI {
 
-    // Messages sent down to hardware
-
+    // Status displays
     float getMinuteVentilationActual();
     int getTidalVolumeActual();
 
+    // Target settings
     void requestNewBreathingRateTarget(int value);
     void requestNewFio2Target(int value);
     void requestNewPipTarget(int value);
@@ -14,35 +14,35 @@ public interface HardwareAPI {
     void requestNewPeepTarget(int value);
     void requestNewIeRatioTarget(int value);
 
+    // Confirm target settings
+    int getBreathingRateTarget();
+    int getFio2Target();
+    int getPipTarget();
+    int getTidalVolumeTarget();
+    int getPeepTarget();
+    int getIeRatioTarget();
+
+    // Command requests
     void requestRun();
     void requestPause();
+
+    // Confirm command requests
+    boolean isRunning();
+    boolean isPaused();
+
+    // Get current alarm, otherwise 0 if no alarms
+    int getAlarm();
+
+    // Request change to allowing patient triggering
+    void requestPatientTriggering(boolean onOff);
+
+    // Confirm patient triggering allowed
+    boolean isPatientTriggeringAllowed();
+
+    // Is the patient currently triggering?
+    boolean getPatientTriggered();
+
+    // Request audible alarm to be silenced
     void requestSilenceAlarm();
-
-    // Messages sent up from hardware
-
-    void runConfirmed();
-    void pauseConfirmed();
-
-    void setMinuteVentilationActual(float value);
-    void setTidalVolumeActual(int value);
-    void fireDisconnectionAlarm(boolean enable);
-    void fireMinuteVentilationHighAlarm(boolean enable);
-    void fireMinuteVentilationLowAlarm(boolean enable);
-    void clearAlarms();
-
-    void setBreathingRateTarget(int value);
-    void setPipTarget(int value);
-    void setFiO2Target(int value);
-    void setPeepTarget(int value);
-    void setTidalVolumeTarget(int value);
-    void setIeRatioTarget(int value);
-
-    void allowPatientTriggering(boolean allow);
-    void setPatientTriggeredLight(boolean allow);
-
-    void enableRunPauseButton(boolean enable);
-    void setRunPauseButtonToRun();
-    void setRunPauseButtonToPause();
-    void enableSilenceAlarmButton(boolean enable);
 
 }

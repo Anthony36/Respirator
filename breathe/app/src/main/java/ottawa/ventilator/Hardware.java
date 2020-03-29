@@ -5,136 +5,118 @@ package ottawa.ventilator;
  */
 class Hardware implements HardwareAPI {
 
-    // ------------------------------
-    // Messages sent down to hardware
-    // ------------------------------
-
+    @Override
     public float getMinuteVentilationActual() {
         return 0;
     }
 
+    @Override
     public int getTidalVolumeActual() {
         return 0;
     }
 
+    @Override
     public void requestNewBreathingRateTarget(int value) {
 
     }
 
+    @Override
     public void requestNewFio2Target(int value) {
 
     }
 
+    @Override
     public void requestNewPipTarget(int value) {
 
     }
 
+    @Override
     public void requestNewTidalVolumeTarget(int value) {
 
     }
 
+    @Override
     public void requestNewPeepTarget(int value) {
 
     }
 
+    @Override
     public void requestNewIeRatioTarget(int value) {
 
     }
 
+    @Override
+    public int getBreathingRateTarget() {
+        return 0;
+    }
+
+    @Override
+    public int getFio2Target() {
+        return 0;
+    }
+
+    @Override
+    public int getPipTarget() {
+        return 0;
+    }
+
+    @Override
+    public int getTidalVolumeTarget() {
+        return 0;
+    }
+
+    @Override
+    public int getPeepTarget() {
+        return 0;
+    }
+
+    @Override
+    public int getIeRatioTarget() {
+        return 0;
+    }
+
+    @Override
     public void requestRun() {
 
     }
 
+    @Override
     public void requestPause() {
 
     }
 
+    @Override
+    public boolean isRunning() {
+        return false;
+    }
+
+    @Override
+    public boolean isPaused() {
+        return false;
+    }
+
+    @Override
+    public int getAlarm() {
+        return 0;
+    }
+
+    @Override
+    public void requestPatientTriggering(boolean onOff) {
+
+    }
+
+    @Override
+    public boolean isPatientTriggeringAllowed() {
+        return false;
+    }
+
+    @Override
+    public boolean getPatientTriggered() {
+        return false;
+    }
+
+    @Override
     public void requestSilenceAlarm() {
-
-    }
-
-    // ------------------------------
-    // Messages sent up from hardware
-    // These may need to be wrapped in Runnables or something to prevent a crash on the UI thread
-    // ------------------------------
-
-    public void runConfirmed() {
-
-    }
-
-    public void pauseConfirmed() {
-
-    }
-
-    public void setMinuteVentilationActual(float value) {
-
-    }
-
-    public void setTidalVolumeActual(int value) {
-
-    }
-
-    public void fireDisconnectionAlarm(boolean enable) {
-
-    }
-
-    public void fireMinuteVentilationHighAlarm(boolean enable) {
-
-    }
-
-    public void fireMinuteVentilationLowAlarm(boolean enable) {
-
-    }
-
-    public void clearAlarms() {
-
-    }
-
-    public void setBreathingRateTarget(int value) {
-
-    }
-
-    public void setPipTarget(int value) {
-
-    }
-
-    public void setFiO2Target(int value) {
-
-    }
-
-    public void setPeepTarget(int value) {
-
-    }
-
-    public void setTidalVolumeTarget(int value) {
-
-    }
-
-    public void setIeRatioTarget(int value) {
-
-    }
-
-    public void allowPatientTriggering(boolean allow) {
-
-    }
-
-    public void setPatientTriggeredLight(boolean allow) {
-
-    }
-
-    public void enableRunPauseButton(boolean enable) {
-
-    }
-
-    public void setRunPauseButtonToRun() {
-
-    }
-
-    public void setRunPauseButtonToPause() {
-
-    }
-
-    public void enableSilenceAlarmButton(boolean enable) {
 
     }
 
