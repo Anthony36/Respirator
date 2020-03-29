@@ -47,6 +47,59 @@ public class MainActivity extends AppCompatActivity {
         String sResultData = mUsbReceiver.getResultData();
     }
 
+    // ---------------------------------------------------------------------------------------------
+    // Application Lifecycle
+    // ---------------------------------------------------------------------------------------------
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ui.initialize();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(mUsbReceiver);
+        unbindService(usbConnection);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setFilters();  // Start listening notifications from UsbService
+        startService(UsbService.class, usbConnection, null); // Start UsbService(if it was not started before) and Bind it
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // UI
+    // ---------------------------------------------------------------------------------------------
+
+    public void onDecrementTarget(View view) {
+        ui.decrementTargetValue((TextView) view);
+    }
+
+    public void onIncrementTarget(View view) {
+        ui.incrementTargetValue((TextView) view);
+    }
+
+    public void onRunPauseButtonClick(View view) {
+        ui.onRunPauseButtonClick((TextView) view);
+    }
+
+    public void onSilenceAlarmButtonClick(View view) {
+        ui.onSilenceAlarmButtonClick();
+    }
+
+    public void onPatientTriggeringSwitch(View view) {
+
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // USB
+    // ---------------------------------------------------------------------------------------------
+
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -82,43 +135,6 @@ public class MainActivity extends AppCompatActivity {
             usbService = null;
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ui.initialize();
-    }
-
-    public void onDecrementTarget(View view) {
-        ui.decrementTargetValue((TextView) view);
-    }
-
-    public void onIncrementTarget(View view) {
-        ui.incrementTargetValue((TextView) view);
-    }
-
-    public void onRunPauseButtonClick(View view) {
-        ui.onRunPauseButtonClick((TextView) view);
-    }
-
-    public void onSilenceAlarmButtonClick(View view) {
-        ui.onSilenceAlarmButtonClick();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setFilters();  // Start listening notifications from UsbService
-        startService(UsbService.class, usbConnection, null); // Start UsbService(if it was not started before) and Bind it
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterReceiver(mUsbReceiver);
-        unbindService(usbConnection);
-    }
 
     private void startService(Class<?> service, ServiceConnection serviceConnection, Bundle extras) {
         if (!UsbService.SERVICE_CONNECTED) {
@@ -175,10 +191,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
-    }
-
-    public void onPatientTriggeringSwitch(View view) {
-
     }
 
 }
