@@ -3,4 +3,22 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="clrBlack">#000000</color>
+    <color name="clrGray6">#202225</color>
+    <color name="clrGray5">#2F3136</color>
+    <color name="clrGray4">#36393F</color>
+    <color name="clrGray3">#72767D</color>
+    <color name="clrGray2">#B9BBBE</color>
+    <color name="clrGray1">#DCDDDE</color>
+    <color name="clrWhite">#FFFFFF</color>
+
+    <color name="clrGreen">#43B581</color>
+    <color name="clrCyan">#00B0F4</color>
+    <color name="clrBlue2">#7289DA</color>
+    <color name="clrBlue1">#3498DB</color>
+    <color name="clrRed2">#D74242</color>
+    <color name="clrRed1">#F04747</color>
+    <color name="clrPink">#FF80F4</color>
+    <color name="clrOrange">#FAA61A</color>
 </resources>

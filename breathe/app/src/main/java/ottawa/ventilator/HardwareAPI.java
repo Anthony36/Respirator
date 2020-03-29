@@ -6,11 +6,10 @@ public interface HardwareAPI {
 
     float getMinuteVentilationActual();
     int getTidalVolumeActual();
-    int getFiO2Actual();
 
     void requestNewBreathingRateTarget(int value);
     void requestNewFio2Target(int value);
-    void requestNewInspirationPressureTarget(int value);
+    void requestNewPipTarget(int value);
     void requestNewTidalVolumeTarget(int value);
     void requestNewPeepTarget(int value);
     void requestNewIeRatioTarget(int value);
@@ -26,14 +25,13 @@ public interface HardwareAPI {
 
     void setMinuteVentilationActual(float value);
     void setTidalVolumeActual(int value);
-    void setFiO2Actual(int value);
     void fireDisconnectionAlarm(boolean enable);
     void fireMinuteVentilationHighAlarm(boolean enable);
     void fireMinuteVentilationLowAlarm(boolean enable);
     void clearAlarms();
 
     void setBreathingRateTarget(int value);
-    void setInspirationPressureTarget(int value);
+    void setPipTarget(int value);
     void setFiO2Target(int value);
     void setPeepTarget(int value);
     void setTidalVolumeTarget(int value);
