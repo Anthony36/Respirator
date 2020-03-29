@@ -62,16 +62,6 @@ class Ui {
         tidalVolVal.setText("" + value);
     }
 
-    // Called from Scheduler
-    void pollMinuteVentilationActual() {
-        setMinuteVentilationActual(hardware.getMinuteVentilationActual());
-    }
-
-    // Called from Scheduler
-    void pollTidalVolumeActual() {
-        setTidalVolumeActual(hardware.getTidalVolumeActual());
-    }
-
     // Not used
     void hideActuals() {
         minVentVal.setAlpha(.1f);
@@ -84,9 +74,33 @@ class Ui {
         tidalVolVal.setAlpha(1f);
     }
 
+    // Called from Scheduler
+    void pollMinuteVentilationActual() {
+        setMinuteVentilationActual(hardware.getMinuteVentilationActual());
+    }
+
+    // Called from Scheduler
+    void pollTidalVolumeActual() {
+        setTidalVolumeActual(hardware.getTidalVolumeActual());
+    }
+
     // ---------------------------------------------------------------------------------------------
     // Alarms
     // ---------------------------------------------------------------------------------------------
+
+    void clearAlarms() {
+        alarmLbl.setText("");
+        enableSilenceAlarmButton(false);
+    }
+
+    void onSilenceAlarmButton() {
+        hardware.requestSilenceAlarm();
+    }
+
+    void enableSilenceAlarmButton(boolean enable) {
+        silenceAlarmBtn.setEnabled(enable);
+        silenceAlarmBtn.setAlpha(enable ? 1 : 0.1f);
+    }
 
     // Called from Scheduler
     void pollAlarms() {
@@ -113,37 +127,18 @@ class Ui {
         }
     }
 
-    void clearAlarms() {
-        alarmLbl.setText("");
-        enableSilenceAlarmButton(false);
-    }
-
     // ---------------------------------------------------------------------------------------------
     // Target Settings
     // ---------------------------------------------------------------------------------------------
 
-    void setBreathingRateTarget(int value) {
-        breathingRateTarget.setText("" + value);
-    }
-
-    void setPipTarget(int value) {
-        pipTarget.setText("" + value);
-    }
-
-    void setFiO2Target(int value) {
-        fio2Target.setText("" + value);
-    }
-
-    void setPeepTarget(int value) {
-        peepTarget.setText("" + value);
-    }
-
-    void setTidalVolumeTarget(int value) {
-        tidalVolTarget.setText("" + value);
-    }
-
-    void setIeRatioTarget(int value) {
-        ieRatioTarget.setText("1:" + value);
+    // Called on start
+    void setTargetDefaults() {
+        setBreathingRateTarget(Setting.BREATHING_RATE.defalt);
+        setFio2Target(Setting.FIO2.defalt);
+        setPeepTarget(Setting.PEEP.defalt);
+        setPipTarget(Setting.PIP.defalt);
+        setieRatioTarget(Setting.IE_RATIO.defalt);
+        setTitalVolumeTarget(Setting.TIDAL_VOLUME.defalt);
     }
 
     int getTargetValue(TextView control) {
@@ -164,6 +159,7 @@ class Ui {
         }
     }
 
+    // Called from UI
     void incrementTargetValue(TextView incControl) {
         TextView control = incToTarget.get(incControl);
         Setting setting = targetToSettings.get(control);
@@ -190,6 +186,7 @@ class Ui {
         }
     }
 
+    // Called from UI
     void decrementTargetValue(TextView decControl) {
         TextView control = decToTarget.get(decControl);
         Setting setting = targetToSettings.get(control);
@@ -235,13 +232,49 @@ class Ui {
         }
     }
 
+    // Called from Scheduler
+    void setBreathingRateTarget(int value) {
+        breathingRateTarget.setText("" + value);
+    }
+
+    // Called from Scheduler
+    void setFio2Target(int value) {
+        fio2Target.setText("" + value);
+    }
+
+    // Called from Scheduler
+    void setPeepTarget(int value) {
+        peepTarget.setText("" + value);
+    }
+
+    // Called from Scheduler
+    void setPipTarget(int value) {
+        pipTarget.setText("" + value);
+    }
+
+    // Called from Scheduler
+    void setieRatioTarget(int value) {
+        ieRatioTarget.setText("1:" + value);
+    }
+
+    // Called from Scheduler
+    void setTitalVolumeTarget(int value) {
+        tidalVolTarget.setText("" + value);
+    }
+
     // ---------------------------------------------------------------------------------------------
     // Patient Triggering
     // ---------------------------------------------------------------------------------------------
 
     // Called from UI
-    void onPatientTriggeringSwitch(View view) {
+    void onPatientTriggeringSwitch() {
+        // Get new switch value and make the request to hardware
+        // TODO
+    }
 
+    boolean getPatientTriggerSwitchSetting() {
+        int selectedId = patientTriggerSwitch.getCheckedRadioButtonId();
+        return selectedId == R.id.patientTriggerSwitchOn;
     }
 
     void allowPatientTriggering(boolean allow) {
@@ -255,26 +288,15 @@ class Ui {
     }
 
     // ---------------------------------------------------------------------------------------------
-    // Run/Pause and Silence Buttons
+    // Run/Pause Button
     // ---------------------------------------------------------------------------------------------
 
-    void onRunPauseButton(TextView control) {
-        if (control.getText().toString().trim().toLowerCase().startsWith("run")) {
+    void onRunPauseButton() {
+        if (runPauseBtn.getText().toString().trim().toLowerCase().startsWith("run")) {
             hardware.requestRun();
         } else {
             hardware.requestPause();
         }
-    }
-
-    // Callback from hardware
-    void runConfirmed() {
-        clearAlarms();
-        setRunPauseButtonToPause();
-        showActuals();
-    }
-
-    void onSilenceAlarmButton() {
-        hardware.requestSilenceAlarm();
     }
 
     void enableRunPauseButton(boolean enable) {
@@ -291,9 +313,11 @@ class Ui {
         runPauseBtn.setBackgroundColor(activity.getResources().getColor(R.color.clrBlue2));
     }
 
-    void enableSilenceAlarmButton(boolean enable) {
-        silenceAlarmBtn.setEnabled(enable);
-        silenceAlarmBtn.setAlpha(enable ? 1 : 0.1f);
+    // Callback from hardware
+    void runConfirmed() {
+        clearAlarms();
+        setRunPauseButtonToPause();
+        showActuals();
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -395,12 +419,7 @@ class Ui {
 
         clearAlarms();
 
-        setBreathingRateTarget(Setting.BREATHING_RATE.defalt);
-        setFiO2Target(Setting.FIO2.defalt);
-        setPipTarget(Setting.PIP.defalt);
-        setTidalVolumeTarget(Setting.TIDAL_VOLUME.defalt);
-        setPeepTarget(Setting.PEEP.defalt);
-        setIeRatioTarget(Setting.IE_RATIO.defalt);
+        setTargetDefaults();
 
         allowPatientTriggering(false);
         setPatientTriggeredLight(false);

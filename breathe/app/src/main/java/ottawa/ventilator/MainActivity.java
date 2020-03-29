@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRunPauseButton(View view) {
-        ui.onRunPauseButton((TextView) view);
+        ui.onRunPauseButton();
     }
 
     public void onSilenceAlarmButton(View view) {
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPatientTriggeringSwitch(View view) {
-
+        ui.onPatientTriggeringSwitch();
     }
 
     // ---------------------------------------------------------------------------------------------

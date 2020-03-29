@@ -27,6 +27,7 @@ public interface HardwareAPI {
     void requestPause();
 
     // Confirm command requests
+    boolean isRunAllowed();
     boolean isRunning();
     boolean isPaused();
 

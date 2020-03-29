@@ -1,7 +1,22 @@
 package ottawa.ventilator;
 
 /**
- * Polls hardware on a timer. Any code that touches the UI must be spun off on a new thread.
+ * Polls hardware on a timer. Any code that touches the UI must be spun off to run on the UI thread.
+ *
+ * What needs to be polled:
+ *      IsRunning
+ *      Actuals values
+ *          Minute Ventilation
+ *          Tidal volume
+ *      Alarms
+ *          0 = no alarms, 1 = Disconnect, 2 = Min. Vent. Low, 3 = Min. Vent. High
+ *      Patient triggered activity
+ *
+ * What needs to be confirmed after a request:
+ *      Target settings '-' and '+'
+ *      Patient trigger allow/off
+ *      Running allowed
+ *      Paused allowed
  */
 public class Scheduler {
 
