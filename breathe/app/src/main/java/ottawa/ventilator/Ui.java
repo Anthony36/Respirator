@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Class for interfacing directly with the UI controls.
@@ -211,7 +213,7 @@ class Ui {
             if (control == peepTarget) {
                 int pipVal = getTargetValue(pipTarget);
                 if (value >= pipVal) {
-                    flashText(control);
+                    flashText(pipTarget);
                     return; // PEEP can't be greater or or equal to PIP
                 }
             }
@@ -238,7 +240,7 @@ class Ui {
             if (control == pipTarget) {
                 int peepVal = getTargetValue(peepTarget);
                 if (value <= peepVal) {
-                    flashText(control);
+                    flashText(peepTarget);
                     return; // PIP can't be less than or equal to PEEP
                 }
             }
@@ -265,8 +267,21 @@ class Ui {
         }
     }
 
-    private void flashText(TextView view) {
+    private void flashText(final TextView view) {
         view.setTextColor(activity.getResources().getColor(R.color.clrOrange));
+
+        TimerTask task = new TimerTask() {
+            public void run() {
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setTextColor(activity.getResources().getColor(R.color.clrWhite));
+                    }
+                });
+            }
+        };
+
+        Timer timer = new Timer("Timer");
+        timer.schedule(task, 500L);
     }
 
     // Set up
