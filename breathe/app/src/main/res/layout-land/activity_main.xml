@@ -10,7 +10,7 @@
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_horizontal|center_vertical">
 
         <TableRow
             android:id="@+id/statusRow"
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_span="1"
-                android:padding="10sp">
+                android:padding="5sp">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="1"
-                android:padding="10sp">
+                android:padding="5sp">
 
                 <TableRow
                     android:layout_width="wrap_content"
@@ -256,7 +256,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="1"
-                android:padding="10sp">
+                android:padding="5sp">
 
                 <TableRow
                     android:layout_width="wrap_content"
@@ -332,7 +332,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="1"
-                android:padding="10sp">
+                android:padding="5sp">
 
                 <TableRow
                     android:layout_width="wrap_content"
@@ -408,7 +408,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="1"
-                android:padding="10sp">
+                android:padding="5sp">
 
                 <TableRow
                     android:layout_width="wrap_content"
@@ -484,7 +484,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="1"
-                android:padding="10sp">
+                android:padding="5sp">
 
                 <TableRow
                     android:layout_width="wrap_content"
@@ -565,25 +565,12 @@
             android:orientation="vertical"
             android:paddingTop="10dp">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="10dp"
-                android:layout_span="1"
-                android:clickable="false"
-                android:text="Allow Patient Triggering"
-                android:textAlignment="viewEnd"
-                android:textColor="@color/clrGray2"
-                android:textSize="10sp" />
-
             <RadioGroup
                 android:id="@+id/patientTriggerSwitchGrp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start"
-                android:layout_span="2"
+                android:layout_gravity="center_vertical|end"
+                android:layout_span="3"
                 android:orientation="horizontal"
                 tools:layout_marginLeft="20dp">
 
@@ -591,9 +578,10 @@
                     android:id="@+id/patientTriggerSwitchOn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:layout_gravity="end"
+                    android:checked="false"
                     android:clickable="true"
-                    android:text="Allow"
+                    android:text="Allow Patient Triggering"
                     android:textColor="@color/clrWhite"
                     android:textSize="12sp"
                     app:buttonTint="@color/clrGreen" />
@@ -602,7 +590,9 @@
                     android:id="@+id/patientTriggerSwitchOff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginStart="10dp"
+                    android:checked="true"
                     android:text="Off"
                     android:textColor="@color/clrWhite"
                     android:textSize="12sp"
@@ -611,31 +601,19 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="10dp"
-                android:layout_span="1"
-                android:clickable="false"
-                android:text="Patient Triggered"
-                android:textAlignment="viewEnd"
-                android:textColor="@color/clrGray2"
-                android:textSize="10sp" />
-
-            <TextView
                 android:id="@+id/patientTriggeredLight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start"
+                android:layout_gravity="center_vertical"
                 android:layout_span="1"
                 android:background="@color/clrCyan"
                 android:clickable="false"
                 android:maxWidth="20dp"
                 android:minWidth="20dp"
                 android:padding="5dp"
+                android:text="Patient Triggered"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/clrWhite"
                 android:textSize="10sp"
                 tools:layout_marginLeft="20dp" />
 
