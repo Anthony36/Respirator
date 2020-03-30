@@ -7,6 +7,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 class Hardware implements HardwareAPI {
 
+    final private Usb usb;
+
+    public Hardware(Usb usb) {
+        this.usb = usb;
+    }
+
     public float getMinuteVentilationActual() {
         return 0;
     }
