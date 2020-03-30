@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="2"
-                android:text="Minute Ventiliation"
+                android:text="Minute Ventilation"
                 android:textAlignment="textEnd"
                 android:textColor="@color/clrGray2"
                 android:textSize="24sp" />
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_span="3"
-                android:text="Titdal Volume"
+                android:text="Tidal Volume"
                 android:textAlignment="textEnd"
                 android:textColor="@color/clrGray2"
                 android:textSize="24sp" />
