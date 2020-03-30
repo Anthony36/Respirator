@@ -16,6 +16,7 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.hoho.android.usbserial.util.SerialInputOutputManager;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -70,7 +71,12 @@ public class Usb {
      */
     String write(String message) {
         // TODO check for null message
-        byte[] request = message.getBytes();
+        byte[] request = new byte[0];
+        try {
+            request = message.getBytes("US-ASCII");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         byte[] response = new byte[0];
         int WRITE_WAIT_MILLIS = 30;
         int READ_WAIT_MILLIS = 30;
@@ -117,7 +123,7 @@ public class Usb {
 
         try {
             port.open(connection);
-            port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+            port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
         } catch (IOException e) {
             e.printStackTrace();
             // TODO Write error message to UI alarm message area
