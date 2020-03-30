@@ -19,7 +19,7 @@ class Setting {
     final int defalt;
     final int increment;
 
-    Setting(int min, int max, int defalt, int increment) {
+    private Setting(int min, int max, int defalt, int increment) {
         this.min = min;
         this.max = max;
         this.defalt = defalt;

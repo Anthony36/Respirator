@@ -32,12 +32,9 @@ class Scheduler {
     private Timer timer;
     private int timerTicks = 0;
 
-    Scheduler(final AppCompatActivity activity, final Hardware hardware) {
+    Scheduler(final AppCompatActivity activity, final Hardware hardware, final Ui ui) {
         this.activity = activity;
         this.hardware = hardware;
-    }
-
-    void setUi(Ui ui) {
         this.ui = ui;
     }
 
@@ -81,7 +78,7 @@ class Scheduler {
     // ---------------------------------------------------------------------------------------------
 
     // Called everytime the timer fires. Perform all the hardware polling here.
-    void onTimerEvent() {
+    private void onTimerEvent() {
         if (!isBusy.get()) {
             isBusy.set(true);
             timerTicks++;
@@ -103,7 +100,7 @@ class Scheduler {
         }
     }
 
-    void pollMinuteVentilationActual() {
+    private void pollMinuteVentilationActual() {
         final float minuteVentilationActual = hardware.getMinuteVentilationActual();
 
         activity.runOnUiThread(new Runnable() {
@@ -113,7 +110,7 @@ class Scheduler {
         });
     }
 
-    void pollTidalVolumeActual() {
+    private void pollTidalVolumeActual() {
         final int tidalVolumeActual = hardware.getTidalVolumeActual();
 
         activity.runOnUiThread(new Runnable() {
@@ -123,7 +120,7 @@ class Scheduler {
         });
     }
 
-    void checkPatientTriggered() {
+    private void checkPatientTriggered() {
         final boolean isPatientTriggered = hardware.getPatientTriggered();
 
         activity.runOnUiThread(new Runnable() {
@@ -133,7 +130,7 @@ class Scheduler {
         });
     }
 
-    void isRunning() {
+    private void isRunning() {
         final boolean isRunning = hardware.isRunning();
 
         activity.runOnUiThread(new Runnable() {
@@ -143,7 +140,7 @@ class Scheduler {
         });
     }
 
-    void isPaused() {
+    private void isPaused() {
         final boolean isPaused = hardware.isPaused();
 
         activity.runOnUiThread(new Runnable() {
@@ -153,7 +150,7 @@ class Scheduler {
         });
     }
 
-    void getAlarms() {
+    private void getAlarms() {
         final int alarm = hardware.getAlarm();
 
         activity.runOnUiThread(new Runnable() {

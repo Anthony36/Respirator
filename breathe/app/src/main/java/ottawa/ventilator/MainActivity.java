@@ -27,24 +27,22 @@ import com.hoho.android.usbserial.util.SerialInputOutputManager;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     final private Ui ui;
-    final private Hardware hardware;
     final private Scheduler scheduler;
     final String ACTION_USB_PERMISSION = "permission";
     private SerialInputOutputManager usbIoManager;
 
     public MainActivity() {
         super();
-        hardware = new Hardware();
-        scheduler = new Scheduler(this, hardware);
-        ui = new Ui(this, hardware, scheduler);
-        scheduler.setUi(ui);
-
+        Hardware hardware = new Hardware();
+        ui = new Ui(this, hardware);
+        scheduler = new Scheduler(this, hardware, ui);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             len = port.read(response, READ_WAIT_MILLIS);
 
-            String m = new String(response,"UTF-8");
+            String m = new String(response, StandardCharsets.UTF_8);
             Log.i("Serial read", m);
         } catch (IOException e) {
             e.printStackTrace();
@@ -114,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
             port.close();
         } catch (IOException e) {
             e.printStackTrace();
-            return;
         }
     }
 
@@ -157,6 +154,5 @@ public class MainActivity extends AppCompatActivity {
     public void onPatientTriggeringSwitch(View view) {
         ui.onPatientTriggeringSwitch();
     }
-
 
 }
