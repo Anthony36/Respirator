@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import ottawa.ventilator.application.Application;
 
@@ -26,17 +27,13 @@ import ottawa.ventilator.application.Application;
  *
  * Usb is created and owned by Hardware.
  */
-public class Usb {
+public class Usb implements SerialInputOutputManager.Listener {
 
     final private AppCompatActivity activity;
     final private Application application;
-    final private static String ACTION_USB_PERMISSION = "permission";
-    private SerialInputOutputManager usbIoManager;
-
-    // Making the assumption here that both port and connection can be held open for a long time
-    // and that they don't need to be opened and closed on a per-message basis
-    private UsbDeviceConnection connection;
     private UsbSerialPort port;
+    final String ACTION_USB_PERMISSION = "permission";
+    private String theUsbMessage = "";
 
     public Usb(final Application application, final AppCompatActivity activity) {
         this.activity = activity;
@@ -49,59 +46,30 @@ public class Usb {
      * Write a command string and get an immediate response.
      * Called from Hardware.
      */
-    String write(String message) {
-        if (message == null) {
-            application.displayFatalErrorMessage("Fatal error: Usb.write() - message is null");
-            return "";
-        }
-
-        byte[] request = new byte[0];
-
+    void write(String message) {
         try {
-            request = message.getBytes("US-ASCII");
-        } catch (UnsupportedEncodingException e) {
-            application.displayFatalErrorMessage("Fatal error: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        byte[] response = new byte[0];
-        int WRITE_WAIT_MILLIS = 30;
-        int READ_WAIT_MILLIS = 30;
-        int len;
-        String responseStr;
-
-        try {
-            port.write(request, WRITE_WAIT_MILLIS);
-            len = port.read(response, READ_WAIT_MILLIS);
-            responseStr = response.toString();
-            Log.i("Serial read", responseStr);
+            port.write(message.getBytes(), 500);
         } catch (IOException e) {
             e.printStackTrace();
-            application.displayFatalErrorMessage("Fatal error: " + e.getMessage());
-            return null;
         }
-
-        return responseStr;
     }
 
     void initialize() {
-        // Find all available drivers from attached devices.
+        SerialInputOutputManager serialInputOutputManager;
         UsbManager manager = (UsbManager) activity.getSystemService(Context.USB_SERVICE);
         List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
 
         if (availableDrivers.isEmpty()) {
-            application.displayFatalErrorMessage("Fatal error: No USB serial drivers found");
             return;
         }
 
         // Open a connection to the first available driver.
         UsbSerialDriver driver = availableDrivers.get(0);
-        connection = manager.openDevice(driver.getDevice());
+        UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
 
         if (connection == null) {
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, 0, new Intent(ACTION_USB_PERMISSION), 0);
-            manager.requestPermission(driver.getDevice(), pendingIntent);
-            Log.i("serial", "connection successful");
+            // add UsbManager.requestPermission(driver.getDevice(), ..) handling here
+            return;
         }
 
         port = driver.getPorts().get(0); // Most devices have just one port (port 0)
@@ -111,17 +79,27 @@ public class Usb {
             port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
         } catch (IOException e) {
             e.printStackTrace();
-            application.displayFatalErrorMessage("Fatal error: " + e.getMessage());
-            return;
         }
+
+        serialInputOutputManager = new SerialInputOutputManager(port, this);
+        Executors.newSingleThreadExecutor().submit(serialInputOutputManager);
     }
 
     void stop() {
-        try {
-            port.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
+    @Override
+    public void onNewData(final byte[] data) {
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                theUsbMessage = theUsbMessage + (new String(data));
+            }
+        });
+    }
+
+    @Override
+    public void onRunError(Exception e) {
+
+    }
 }
