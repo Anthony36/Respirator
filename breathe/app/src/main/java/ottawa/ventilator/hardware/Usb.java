@@ -15,6 +15,8 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 import com.hoho.android.usbserial.util.SerialInputOutputManager;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import ottawa.ventilator.application.Application;
@@ -50,9 +52,18 @@ public class Usb {
     String write(String message) {
         if (message == null) {
             application.displayFatalErrorMessage("Fatal error: Usb.write() - message is null");
+            return "";
         }
 
-        byte[] request = message.getBytes();
+        byte[] request = new byte[0];
+
+        try {
+            request = message.getBytes("US-ASCII");
+        } catch (UnsupportedEncodingException e) {
+            application.displayFatalErrorMessage("Fatal error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
         byte[] response = new byte[0];
         int WRITE_WAIT_MILLIS = 30;
         int READ_WAIT_MILLIS = 30;
@@ -62,8 +73,6 @@ public class Usb {
         try {
             port.write(request, WRITE_WAIT_MILLIS);
             len = port.read(response, READ_WAIT_MILLIS);
-            // I doubt the Arduino will be sending UTF-8
-            //responseStr = new String(response, StandardCharsets.UTF_8);
             responseStr = response.toString();
             Log.i("Serial read", responseStr);
         } catch (IOException e) {
@@ -99,7 +108,7 @@ public class Usb {
 
         try {
             port.open(connection);
-            port.setParameters(115200, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
+            port.setParameters(9600, 8, UsbSerialPort.STOPBITS_1, UsbSerialPort.PARITY_NONE);
         } catch (IOException e) {
             e.printStackTrace();
             application.displayFatalErrorMessage("Fatal error: " + e.getMessage());
