@@ -1,4 +1,4 @@
-package ottawa.ventilator;
+package ottawa.ventilator.application;
 
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import ottawa.ventilator.R;
+import ottawa.ventilator.hardware.IHardware;
 
 /**
  * Class for interfacing with the UI controls and some logic.
@@ -19,7 +23,8 @@ import java.util.TimerTask;
 class Ui {
 
     final private AppCompatActivity activity;
-    final private Hardware hardware;
+    final private IHardware hardware;
+    final private AtomicBoolean isRunning = new AtomicBoolean(false);
 
     // Controls
     private TextView minVentVal, tidalVolVal;
@@ -41,7 +46,7 @@ class Ui {
     private Map<TextView, Setting> targetToSettings = new HashMap<>();
     private Map<TextView, TextView> incToTarget = new HashMap<>();
 
-    Ui(final AppCompatActivity activity, final Hardware hardware) {
+    Ui(final AppCompatActivity activity, final IHardware hardware) {
         this.activity = activity;
         this.hardware = hardware;
     }
@@ -68,6 +73,12 @@ class Ui {
     private void showActuals() {
         minVentVal.setAlpha(1f);
         tidalVolVal.setAlpha(1f);
+    }
+
+    // Used in paused state
+    private void dimActuals() {
+        minVentVal.setAlpha(.5f);
+        tidalVolVal.setAlpha(.5f);
     }
 
     // Called from Scheduler
@@ -174,7 +185,7 @@ class Ui {
             if (control == peepTarget) {
                 int pipVal = getTargetValue(pipTarget);
                 if (value >= pipVal) {
-                    flashText(pipTarget);
+                    flashText(pipTarget, R.color.clrWhite, R.color.clrOrange);
                     return; // PEEP can't be greater or or equal to PIP
                 }
             }
@@ -182,8 +193,10 @@ class Ui {
             control.setText("" + value);
         }
 
-        notifyHardwareOnTargetChange(control, value);
-        waitForTargetChangeResponse(control);
+        if (isRunning.get()) {
+            notifyHardwareOnTargetChange(control, value);
+            waitForTargetChangeResponse(control);
+        }
     }
 
     // Called from Activity
@@ -205,7 +218,7 @@ class Ui {
             if (control == pipTarget) {
                 int peepVal = getTargetValue(peepTarget);
                 if (value <= peepVal) {
-                    flashText(peepTarget);
+                    flashText(peepTarget, R.color.clrWhite, R.color.clrOrange);
                     return; // PIP can't be less than or equal to PEEP
                 }
             }
@@ -213,8 +226,10 @@ class Ui {
             control.setText("" + value);
         }
 
-        notifyHardwareOnTargetChange(control, value);
-        waitForTargetChangeResponse(control);
+        if (isRunning.get()) {
+            notifyHardwareOnTargetChange(control, value);
+            waitForTargetChangeResponse(control);
+        }
     }
 
     // Called after '-' or '+'
@@ -354,10 +369,9 @@ class Ui {
 
     // Called from Activity
     void onRunPauseButton() {
-        // Not sure yet if the button text state is changed before or after this call from the system
-        boolean isRunDisplayed = runPauseBtn.getText().toString().trim().toLowerCase().startsWith("run");
+        final boolean doRun = runPauseBtn.getText().toString().trim().toLowerCase().startsWith("run");
 
-        if (isRunDisplayed) {
+        if (doRun) {
             hardware.requestRun();
         } else {
             hardware.requestPause();
@@ -366,33 +380,35 @@ class Ui {
         // Obtain response in 200 ms
         TimerTask task = new TimerTask() {
             public void run() {
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-                    setToRunning(hardware.isRunning());
-                }
-            });
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        setToRunning(doRun);
+                    }
+                });
             }
         };
 
         new Timer("WaitingIsRunningResponse").schedule(task, 200L);
     }
 
-    // Called from Scheduler
-    void setToRunning(boolean isRunning) {
-        enableRunPauseButton(isRunning);
-
-        if (isRunning) {
-            setRunPauseButtonToRun();
+    void setToRunning(boolean doRun) {
+        if (doRun) {
+            isRunning.set(true);
+            setRunPauseButtonToPause();
+            clearAlarms();
             showActuals();
             requestTargetsToHardware();
             waitForTargetChangeResponseAll();
         } else {
-            setRunPauseButtonToPause();
+            setRunPauseButtonToRun();
+            dimActuals();
+            isRunning.set(false);
         }
     }
 
     private void enableRunPauseButton(boolean enable) {
         runPauseBtn.setEnabled(enable);
+        runPauseBtn.setAlpha(enable ? 1 : 0.1f);
     }
 
     private void setRunPauseButtonToRun() {
@@ -409,20 +425,33 @@ class Ui {
     // Other
     // ---------------------------------------------------------------------------------------------
 
-    private void flashText(final TextView view) {
-        view.setTextColor(activity.getResources().getColor(R.color.clrOrange));
+    private void flashText(final TextView view, final int normalClr, final int flashClr) {
+        view.setTextColor(activity.getResources().getColor(flashClr));
 
         TimerTask task = new TimerTask() {
             public void run() {
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-                    view.setTextColor(activity.getResources().getColor(R.color.clrWhite));
-                }
-            });
+                activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        view.setTextColor(activity.getResources().getColor(normalClr));
+                    }
+                });
             }
         };
 
         new Timer("FlashText").schedule(task, 500L);
+    }
+
+    /**
+     * Display a fatal error message on the screen where alarm messages are displayed.
+     * This is intended for displaying notices about fatel events that will stop the application.
+     * !Note! Messages displayed will overwrite any current alarm message.
+     */
+    void displayFatalErrorMessage(String message) {
+        activity.runOnUiThread(new Runnable() {
+            public void run() {
+                alarmLbl.setText("message");
+            }
+        });
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -494,24 +523,21 @@ class Ui {
 
         setToDefaults();
         hideActuals();
-        alarmLbl.setText("\u26a0 Waiting to Start \u26a0");
+        alarmLbl.setText("Initializing...");
         waitForHardwareReady();
     }
 
     private void setToDefaults() {
         setMinuteVentilationActual(0f);
         setTidalVolumeActual(0);
-
         clearAlarms();
-
         setTargetDefaults();
-
         allowPatientTriggering(false);
         setPatientTriggeredLight(false);
 
         // Disable Run button until isRunAllowed() returns true
-        enableRunPauseButton(false);
         setRunPauseButtonToRun();
+        enableRunPauseButton(false);
         enableSilenceAlarmButton(false);
     }
 
@@ -521,17 +547,16 @@ class Ui {
 
         TimerTask task = new TimerTask() {
             public void run() {
-            activity.runOnUiThread(new Runnable() {
-                public void run() {
-                    boolean canRun = hardware.isRunAllowed();
-                    if (canRun) {
-                        timer.cancel();
-                        enableRunPauseButton(true);
-                        requestTargetsToHardware();
-                        waitForTargetChangeResponseAll();
-                    }
+                if (hardware.isRunAllowed()) {
+                    activity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            timer.cancel();
+                            enableRunPauseButton(true);
+                            alarmLbl.setText("Ready to run");
+                            flashText(alarmLbl, R.color.clrOrange, R.color.clrGray5);
+                        }
+                    });
                 }
-            });
             }
         };
 

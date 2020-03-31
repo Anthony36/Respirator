@@ -571,6 +571,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_span="3"
+                android:checkedButton="@id/patientTriggerSwitchOff"
+                android:onClick="onPatientTriggeringSwitch"
                 android:orientation="horizontal"
                 tools:layout_marginLeft="20dp">
 
@@ -592,7 +594,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginStart="10dp"
-                    android:checked="true"
+                    android:checked="false"
                     android:text="Off"
                     android:textColor="@color/clrWhite"
                     android:textSize="12sp"

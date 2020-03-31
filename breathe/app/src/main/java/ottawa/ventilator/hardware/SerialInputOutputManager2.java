@@ -1,4 +1,4 @@
-package ottawa.ventilator;
+package ottawa.ventilator.hardware;
 
 /* Copyright 2011-2013 Google Inc.
  * Copyright 2013 mike wakerly <opensource@hoho.com>

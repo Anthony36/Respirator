@@ -1,10 +1,12 @@
-package ottawa.ventilator;
+package ottawa.ventilator.application;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import ottawa.ventilator.hardware.IHardware;
 
 /**
  * Polls hardware on a timer. Any code that touches the UI must be spun off to run on the UI thread.
@@ -18,10 +20,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *          0 = no alarms, 1 = Disconnect, 2 = Min. Vent. Low, 3 = Min. Vent. High
  *      Patient triggered activity
  */
-class Scheduler {
+class Scheduler implements ILifecycle {
 
     final private AppCompatActivity activity;
-    final private Hardware hardware;
+    final private IHardware hardware;
     private Ui ui;
 
     final private AtomicBoolean checkPatientTriggering = new AtomicBoolean(false);
@@ -32,34 +34,40 @@ class Scheduler {
     private Timer timer;
     private int timerTicks = 0;
 
-    Scheduler(final AppCompatActivity activity, final Hardware hardware, final Ui ui) {
+    Scheduler(final AppCompatActivity activity, final IHardware hardware, final Ui ui) {
         this.activity = activity;
         this.hardware = hardware;
         this.ui = ui;
     }
 
     // ---------------------------------------------------------------------------------------------
-    // Activity Lifecycle
+    // Application Lifecycle
     // ---------------------------------------------------------------------------------------------
 
-    // Called from Activity on application start
-    void start() {
+    public void onCreate() {}
+
+    public void onStart() {
         TimerTask task = new TimerTask() {
             public void run() {
                 onTimerEvent();
             }
         };
-
         timer = new Timer("Scheduler");
-
         // Delay 100 ms, fire every 200 ms
-       timer.scheduleAtFixedRate(task,100L, 200L);
+        timer.scheduleAtFixedRate(task,100L, 200L);
     }
 
-    // Called from Activity on application stop
-    void stop() {
-        timer.cancel();
-    }
+    public void onPause() {}
+
+    public void onResume() {}
+
+    public void onStop() {}
+
+    public void onRestart() {}
+
+    public void onDestroy() {}
+
+    // ---------------------------------------------------------------------------------------------
 
     void includePatientTriggeringCheck(boolean include) {
         checkPatientTriggering.set(include);

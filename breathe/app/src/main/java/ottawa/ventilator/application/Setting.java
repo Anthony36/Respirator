@@ -1,6 +1,4 @@
-package ottawa.ventilator;
-
-import android.widget.TextView;
+package ottawa.ventilator.application;
 
 /**
  * Values for target settings.
