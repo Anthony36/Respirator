@@ -1,10 +1,12 @@
 package ottawa.ventilator.application;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ottawa.ventilator.hardware.Hardware;
 import ottawa.ventilator.hardware.IHardware;
 import ottawa.ventilator.hardware.MockHardware;
 
@@ -19,10 +21,10 @@ public class Application implements ILifecycle {
 
     final private AppCompatActivity activity;
 
-    public Application(final AppCompatActivity activity) {
+    public Application(final AppCompatActivity activity, final Context context) {
         this.activity = activity;
-        // HardwareAPI hardware = new Hardware(this, activity);
-        hardware = new MockHardware(this);
+        hardware = new Hardware(this, activity, context);
+        //hardware = new MockHardware(this);
         ui = new Ui(activity, hardware);
         scheduler = new Scheduler(activity, hardware, ui);
     }

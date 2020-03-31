@@ -31,6 +31,7 @@ public class Usb implements SerialInputOutputManager.Listener {
 
     final private AppCompatActivity activity;
     final private Application application;
+    final private Context context;
 
     private UsbSerialPort port;
     final String ACTION_USB_PERMISSION = "permission";
@@ -38,9 +39,10 @@ public class Usb implements SerialInputOutputManager.Listener {
 
     private Object writeLock = new Object();
 
-    public Usb(final Application application, final AppCompatActivity activity) {
+    public Usb(final Application application, final AppCompatActivity activity, Context context) {
         this.activity = activity;
         this.application = application;
+        this.context = context;
     }
 
     void initialize() {
@@ -57,8 +59,10 @@ public class Usb implements SerialInputOutputManager.Listener {
         UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
 
         if (connection == null) {
-            // add UsbManager.requestPermission(driver.getDevice(), ..) handling here
-            return;
+            //This code has to run, otherwise the app gets permission denied on the USB device and never gets permission from the user to continue:
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, 0, new Intent(ACTION_USB_PERMISSION), 0);
+            manager.requestPermission(driver.getDevice(), pendingIntent);
+            Log.i("serial", "connection successful");
         }
 
         port = driver.getPorts().get(0); // Most devices have just one port (port 0)

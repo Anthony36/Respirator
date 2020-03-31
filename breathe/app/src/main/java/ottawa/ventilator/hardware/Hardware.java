@@ -1,5 +1,7 @@
 package ottawa.ventilator.hardware;
 
+import android.content.Context;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import ottawa.ventilator.application.Application;
@@ -12,8 +14,8 @@ public class Hardware implements IHardware {
 
     final private Usb usb;
 
-    public Hardware(final Application application, final AppCompatActivity activity) {
-        usb = new Usb(application, activity);
+    public Hardware(final Application application, final AppCompatActivity activity, final Context context) {
+        usb = new Usb(application, activity, context);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -46,7 +48,8 @@ public class Hardware implements IHardware {
     }
 
     public void requestNewBreathingRateTarget(int value) {
-
+        usb.initialize();
+        usb.write("01");
     }
 
     public void requestNewFio2Target(int value) {

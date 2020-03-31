@@ -192,7 +192,7 @@ class Ui {
 
             control.setText("" + value);
         }
-
+        notifyHardwareOnTargetChange(control, 10);//ar test only
         if (isRunning.get()) {
             notifyHardwareOnTargetChange(control, value);
             waitForTargetChangeResponse(control);

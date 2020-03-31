@@ -7,10 +7,15 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.hoho.android.usbserial.driver.UsbSerialDriver;
+import com.hoho.android.usbserial.driver.UsbSerialProber;
+import com.hoho.android.usbserial.util.SerialInputOutputManager;
 
 import ottawa.ventilator.application.Application;
 
@@ -28,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     public MainActivity() {
         super();
-        application = new Application(this);
+        application = new Application(this, this);
         theUsbMessage = "";
     }
 
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         application.onCreate();
+
     }
 
     @Override
