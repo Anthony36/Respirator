@@ -93,7 +93,7 @@ public class Usb implements SerialInputOutputManager.Listener {
     public void onNewData(final byte[] data) {
         theUsbMessage = theUsbMessage + data.toString();
 
-        if (theUsbMessage.endsWith("\n")) {
+        if (theUsbMessage.contains("\n")) {
             String message = theUsbMessage;
             theUsbMessage = "";
             dispatchMessage(message);
