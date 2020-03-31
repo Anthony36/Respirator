@@ -1,17 +1,49 @@
-package ottawa.ventilator;
+package ottawa.ventilator.hardware;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/**
- * Class for directly interfacing with the low-level hardware.
- */
-class Hardware implements HardwareAPI {
+import ottawa.ventilator.R;
+import ottawa.ventilator.application.Application;
+import ottawa.ventilator.application.ILifecycle;
 
-    final private Usb usb;
+public class MockHardware implements IHardware {
 
-    public Hardware(Usb usb) {
-        this.usb = usb;
+    final Application application;
+
+    private AtomicBoolean isRunAllowed = new AtomicBoolean(false);
+    private float minuteVentilationActual = 0f;
+    private int tidalVolumeActual = 0;
+
+    public MockHardware(Application application) {
+        this.application = application;
     }
+
+    // ---------------------------------------------------------------------------------------------
+    // Application Lifecycle
+    // ---------------------------------------------------------------------------------------------
+
+    public void onCreate() {}
+
+    public void onStart() {
+        // Allow running in 3 seconds
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+                isRunAllowed.set(true);
+            }
+        };
+        new Timer("MockHardware").schedule(task, 2000L);
+    }
+
+    public void onPause() {}
+    public void onResume() {}
+    public void onStop() {}
+    public void onRestart() {}
+    public void onDestroy() {}
+
+    // ---------------------------------------------------------------------------------------------
 
     public float getMinuteVentilationActual() {
         return 0;
@@ -78,15 +110,15 @@ class Hardware implements HardwareAPI {
     }
 
     public boolean isRunAllowed() {
-        return false;
+        return isRunAllowed.get();
     }
 
     public boolean isRunning() {
-        return false;
+        return true;
     }
 
     public boolean isPaused() {
-        return false;
+        return true;
     }
 
     public int getAlarm() {

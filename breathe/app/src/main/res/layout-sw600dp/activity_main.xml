@@ -627,6 +627,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_span="2"
+                android:checkedButton="@id/patientTriggerSwitchOff"
+                android:onClick="onPatientTriggeringSwitch"
                 android:orientation="vertical">
 
                 <RadioButton
@@ -647,7 +649,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_marginTop="5dp"
-                    android:checked="true"
+                    android:checked="false"
                     android:text="Off"
                     android:textColor="@color/clrWhite"
                     android:textSize="24sp"

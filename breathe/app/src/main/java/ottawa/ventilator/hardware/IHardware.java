@@ -1,6 +1,8 @@
-package ottawa.ventilator;
+package ottawa.ventilator.hardware;
 
-public interface HardwareAPI {
+import ottawa.ventilator.application.ILifecycle;
+
+public interface IHardware extends ILifecycle {
 
     // Status displays
     float getMinuteVentilationActual();

@@ -6,22 +6,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.hoho.android.usbserial.util.SerialInputOutputManager;
+import ottawa.ventilator.application.Application;
 
 public class MainActivity extends AppCompatActivity {
 
-    final private Ui ui;
-    final private Usb usb;
-    final private Scheduler scheduler;
-    final String ACTION_USB_PERMISSION = "permission";
-    private SerialInputOutputManager usbIoManager;
+    final private Application application;
 
     public MainActivity() {
         super();
-        usb = new Usb(this);
-        Hardware hardware = new Hardware(usb);
-        ui = new Ui(this, hardware);
-        scheduler = new Scheduler(this, hardware, ui);
+        application = new Application(this);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -32,50 +25,67 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        usb.initialize();
-        ui.initialize();
-        scheduler.start();
+        application.onCreate();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        application.onStart();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        application.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        application.onResume();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        scheduler.stop();
-        usb.onStop();
+        application.onStop();
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        application.onRestart();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        application.onDestroy();
     }
 
     // ---------------------------------------------------------------------------------------------
-    // UI
+    // UI Events
     // ---------------------------------------------------------------------------------------------
 
     public void onDecrementTarget(View view) {
-        ui.decrementTargetValue((TextView) view);
+        application.onDecrementTargetValue(view);
     }
 
     public void onIncrementTarget(View view) {
-        ui.incrementTargetValue((TextView) view);
+        application.onIncrementTargetValue(view);
     }
 
     public void onRunPauseButton(View view) {
-        ui.onRunPauseButton();
+        application.onRunPauseButton(view);
     }
 
     public void onSilenceAlarmButton(View view) {
-        ui.onSilenceAlarmButton();
+        application.onSilenceAlarmButton(view);
     }
 
     public void onPatientTriggeringSwitch(View view) {
-        ui.onPatientTriggeringSwitch();
+        application.onPatientTriggeringSwitch(view);
     }
 
 }
